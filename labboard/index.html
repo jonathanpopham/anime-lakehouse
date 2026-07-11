@@ -1,0 +1,664 @@
+<title>labboard — anime-lakehouse</title>
+<style>
+:root {
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-raised: #242423;
+  --ink: #ededec;
+  --ink-muted: #898781;
+  --border: #2a2a28;
+  --accent: #3987e5;
+  --pass: #0ca30c;
+  --fail: #d03b3b;
+  --skip: #898781;
+  --running: #d4960a;
+  --mono: "SF Mono", "Cascadia Code", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-raised: #f0efed;
+    --ink: #0b0b0b;
+    --ink-muted: #898781;
+    --border: #dddcd8;
+    --accent: #2a78d6;
+    --pass: #0ca30c;
+    --fail: #d03b3b;
+    --skip: #898781;
+    --running: #b8820a;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-raised: #242423;
+  --ink: #ededec;
+  --ink-muted: #898781;
+  --border: #2a2a28;
+  --accent: #3987e5;
+  --pass: #0ca30c;
+  --fail: #d03b3b;
+  --skip: #898781;
+  --running: #d4960a;
+}
+
+:root[data-theme="light"] {
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --surface-raised: #f0efed;
+  --ink: #0b0b0b;
+  --ink-muted: #898781;
+  --border: #dddcd8;
+  --accent: #2a78d6;
+  --pass: #0ca30c;
+  --fail: #d03b3b;
+  --skip: #898781;
+  --running: #b8820a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--page);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.header-title span {
+  color: var(--ink);
+}
+
+.run-btn {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  transition: opacity 0.15s;
+}
+
+.run-btn:hover:not(:disabled) { opacity: 0.85; }
+
+.run-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.run-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  grid-template-rows: auto 1fr;
+  gap: 0;
+  height: calc(100vh - 49px);
+  overflow: hidden;
+}
+
+.gates-section {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.gates-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+
+.gate-lattice {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gate-card {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 130px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.gate-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.gate-card[data-state="idle"] .gate-icon {
+  background: var(--surface-raised);
+  color: var(--ink-muted);
+}
+.gate-card[data-state="idle"] .gate-icon::after { content: "—"; }
+
+.gate-card[data-state="running"] {
+  border-color: var(--running);
+}
+.gate-card[data-state="running"] .gate-icon {
+  background: var(--running);
+  color: #fff;
+}
+.gate-card[data-state="running"] .gate-icon::after { content: "▸"; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .gate-card[data-state="running"] .gate-icon {
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.gate-card[data-state="pass"] {
+  border-color: color-mix(in srgb, var(--pass) 40%, transparent);
+}
+.gate-card[data-state="pass"] .gate-icon {
+  background: var(--pass);
+  color: #fff;
+}
+.gate-card[data-state="pass"] .gate-icon::after { content: "✓"; }
+
+.gate-card[data-state="fail"] {
+  border-color: color-mix(in srgb, var(--fail) 40%, transparent);
+}
+.gate-card[data-state="fail"] .gate-icon {
+  background: var(--fail);
+  color: #fff;
+}
+.gate-card[data-state="fail"] .gate-icon::after { content: "✕"; }
+
+.gate-card[data-state="skip"] .gate-icon {
+  background: var(--surface-raised);
+  color: var(--skip);
+}
+.gate-card[data-state="skip"] .gate-icon::after { content: "—"; }
+
+.gate-name { color: var(--ink); }
+.gate-status {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.gate-card[data-state="pass"] .gate-status { color: var(--pass); }
+.gate-card[data-state="fail"] .gate-status { color: var(--fail); }
+.gate-card[data-state="running"] .gate-status { color: var(--running); }
+
+.log-section {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.log-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+.pin-btn {
+  font-family: var(--ui);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.pin-btn:hover { background: var(--surface-raised); }
+.pin-btn.pinned { color: var(--accent); border-color: var(--accent); }
+.pin-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.log-pane {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 8px 20px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  background: var(--page);
+}
+
+.log-pane .log-line { white-space: pre; }
+
+.log-pane .log-line[data-type="gate_start"] {
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.log-pane .log-line[data-type="gate_end_pass"] { color: var(--pass); }
+.log-pane .log-line[data-type="gate_end_fail"] { color: var(--fail); }
+.log-pane .log-line[data-type="gate_end_skip"] { color: var(--skip); }
+
+.log-empty {
+  color: var(--ink-muted);
+  font-family: var(--ui);
+  font-size: 13px;
+  padding-top: 40px;
+  text-align: center;
+}
+
+.history-section {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  background: var(--surface);
+}
+
+.history-header {
+  padding: 16px 16px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+.history-list { padding: 0 12px 12px; }
+
+.history-item {
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.history-item:hover { background: var(--surface-raised); }
+.history-item.active { background: var(--surface-raised); }
+
+.history-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.history-chip[data-status="pass"] { background: var(--pass); color: #fff; }
+.history-chip[data-status="fail"] { background: var(--fail); color: #fff; }
+.history-chip[data-status="skip"] { background: var(--skip); color: #fff; }
+.history-chip[data-status="running"] { background: var(--running); color: #fff; }
+
+.history-trigger {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.history-empty {
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 700px) {
+  .main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+  .history-section {
+    grid-column: 1;
+    grid-row: 3;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    max-height: 200px;
+  }
+  .log-section { border-right: none; }
+}
+</style>
+
+<div class="header">
+  <div class="header-title"><span>labboard</span> · anime-lakehouse</div>
+  <button class="run-btn" id="runBtn">Run gates</button>
+</div>
+
+<div class="main">
+  <div class="gates-section">
+    <div class="gates-label">Gate lattice</div>
+    <div class="gate-lattice" id="gateLattice"></div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-header">
+      <div class="log-title">Log</div>
+      <button class="pin-btn pinned" id="pinBtn" title="Auto-scroll to bottom">⇣ pinned</button>
+    </div>
+    <div class="log-pane" id="logPane">
+      <div class="log-empty">No active run. Click <strong>Run gates</strong> to start.</div>
+    </div>
+  </div>
+
+  <div class="history-section">
+    <div class="history-header">History</div>
+    <div class="history-list" id="historyList">
+      <div class="history-empty">No runs yet</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  const KNOWN_GATES = ["pytest", "determinism", "dbt_build", "eval_gate"];
+  const gateLattice = document.getElementById("gateLattice");
+  const logPane = document.getElementById("logPane");
+  const pinBtn = document.getElementById("pinBtn");
+  const runBtn = document.getElementById("runBtn");
+  const historyList = document.getElementById("historyList");
+
+  let pinned = true;
+  let currentRunId = null;
+  let eventSource = null;
+  let gateCards = {};
+
+  function resetGates(gates) {
+    gateLattice.innerHTML = "";
+    gateCards = {};
+    const list = gates && gates.length ? gates : KNOWN_GATES;
+    list.forEach(function (g) {
+      const card = document.createElement("div");
+      card.className = "gate-card";
+      card.dataset.state = "idle";
+      card.innerHTML =
+        '<div class="gate-icon"></div>' +
+        '<span class="gate-name">' + escHtml(g) + "</span>" +
+        '<span class="gate-status"></span>';
+      gateLattice.appendChild(card);
+      gateCards[g] = card;
+    });
+  }
+
+  function setGateState(gate, state, extra) {
+    const card = gateCards[gate];
+    if (!card) return;
+    card.dataset.state = state;
+    const status = card.querySelector(".gate-status");
+    if (state === "pass" && extra) status.textContent = extra + "s";
+    else if (state === "fail" && extra) status.textContent = extra + "s";
+    else if (state === "skip") status.textContent = "skip";
+    else if (state === "running") status.textContent = "running";
+    else status.textContent = "";
+  }
+
+  function appendLog(text, type) {
+    const first = logPane.querySelector(".log-empty");
+    if (first) first.remove();
+    const line = document.createElement("div");
+    line.className = "log-line";
+    if (type) line.dataset.type = type;
+    line.textContent = text;
+    logPane.appendChild(line);
+    if (pinned) logPane.scrollTop = logPane.scrollHeight;
+  }
+
+  function clearLog() {
+    logPane.innerHTML = '<div class="log-empty">No active run. Click <strong>Run gates</strong> to start.</div>';
+  }
+
+  pinBtn.addEventListener("click", function () {
+    pinned = !pinned;
+    pinBtn.classList.toggle("pinned", pinned);
+    pinBtn.textContent = pinned ? "⇣ pinned" : "⇣ scroll";
+    if (pinned) logPane.scrollTop = logPane.scrollHeight;
+  });
+
+  function handleEvent(raw) {
+    let ev;
+    try { ev = JSON.parse(raw); } catch (e) { return; }
+
+    switch (ev.event) {
+      case "run_start":
+        resetGates(ev.gates);
+        clearLog();
+        logPane.querySelector(".log-empty")?.remove();
+        appendLog("▸ run started: " + ev.run_id, "gate_start");
+        break;
+
+      case "gate_start":
+        setGateState(ev.gate, "running");
+        appendLog("── " + ev.gate + " ──", "gate_start");
+        break;
+
+      case "log":
+        appendLog(ev.line);
+        break;
+
+      case "gate_end":
+        setGateState(ev.gate, ev.status, ev.duration_s?.toFixed(1));
+        var suffix = ev.status;
+        if (ev.status === "skip" && ev.reason) suffix += " (" + ev.reason + ")";
+        if (ev.duration_s != null) suffix += " " + ev.duration_s.toFixed(1) + "s";
+        appendLog("── " + ev.gate + ": " + suffix, "gate_end_" + ev.status);
+        break;
+
+      case "run_end":
+        appendLog("▸ run finished: " + ev.status + " in " + ev.duration_s?.toFixed(1) + "s",
+                   ev.status === "pass" ? "gate_end_pass" : "gate_end_fail");
+        runBtn.disabled = false;
+        currentRunId = null;
+        loadHistory();
+        break;
+    }
+  }
+
+  function connectSSE(runId) {
+    if (eventSource) { eventSource.close(); eventSource = null; }
+    eventSource = new EventSource("/api/stream?run_id=" + encodeURIComponent(runId));
+    eventSource.onmessage = function (e) { handleEvent(e.data); };
+    eventSource.onerror = function () {
+      eventSource.close();
+      eventSource = null;
+      if (currentRunId) {
+        setTimeout(function () { if (currentRunId) connectSSE(currentRunId); }, 2000);
+      }
+    };
+  }
+
+  runBtn.addEventListener("click", function () {
+    runBtn.disabled = true;
+    fetch("/api/run", { method: "POST" })
+      .then(function (r) {
+        if (r.status === 409) {
+          runBtn.disabled = false;
+          return;
+        }
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data) return;
+        currentRunId = data.run_id;
+        resetGates();
+        clearLog();
+        logPane.querySelector(".log-empty")?.remove();
+        connectSSE(data.run_id);
+      })
+      .catch(function () { runBtn.disabled = false; });
+  });
+
+  function relativeTime(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    var now = Date.now();
+    var diff = Math.floor((now - d.getTime()) / 1000);
+    if (diff < 60) return diff + "s ago";
+    if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+    if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+    return Math.floor(diff / 86400) + "d ago";
+  }
+
+  function formatDuration(s) {
+    if (s == null) return "";
+    if (s < 60) return s.toFixed(1) + "s";
+    return Math.floor(s / 60) + "m " + (s % 60).toFixed(0) + "s";
+  }
+
+  function escHtml(s) {
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function loadHistory() {
+    fetch("/api/runs")
+      .then(function (r) { return r.json(); })
+      .then(function (runs) {
+        if (!runs || !runs.length) {
+          historyList.innerHTML = '<div class="history-empty">No runs yet</div>';
+          return;
+        }
+        historyList.innerHTML = "";
+        runs.forEach(function (run) {
+          var item = document.createElement("div");
+          item.className = "history-item";
+          item.tabIndex = 0;
+
+          var chipStatus = run.status || "pass";
+          item.innerHTML =
+            '<div class="history-row">' +
+              '<span class="history-chip" data-status="' + escHtml(chipStatus) + '">' +
+                escHtml(chipStatus) +
+              "</span>" +
+              '<span class="history-trigger">' + escHtml(run.trigger || "") + "</span>" +
+            "</div>" +
+            '<div class="history-meta">' +
+              "<span>" + escHtml(formatDuration(run.gates?.reduce(function (a, g) {
+                return a + (g.duration_s || 0);
+              }, 0))) + "</span>" +
+              "<span>" + escHtml(relativeTime(run.started_at || run.finished_at)) + "</span>" +
+            "</div>";
+
+          item.addEventListener("click", function () {
+            document.querySelectorAll(".history-item.active").forEach(function (el) {
+              el.classList.remove("active");
+            });
+            item.classList.add("active");
+            showRunDetail(run);
+          });
+
+          historyList.appendChild(item);
+        });
+      })
+      .catch(function () {});
+  }
+
+  function showRunDetail(run) {
+    clearLog();
+    logPane.querySelector(".log-empty")?.remove();
+
+    resetGates(run.gates?.map(function (g) { return g.gate; }) || KNOWN_GATES);
+    run.gates?.forEach(function (g) {
+      setGateState(g.gate, g.status, g.duration_s?.toFixed(1));
+    });
+
+    run.gates?.forEach(function (g) {
+      appendLog("── " + g.gate + ": " + g.status + " ──", "gate_start");
+      (g.tail || []).forEach(function (line) { appendLog(line); });
+    });
+  }
+
+  resetGates();
+  loadHistory();
+})();
+</script>
