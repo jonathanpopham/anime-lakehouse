@@ -1,0 +1,48 @@
+name: CI Gate Lattice
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gates:
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python venv
+        run: |
+          uv venv --python 3.12
+          uv pip install -e ".[dev]"
+
+      - name: Ingest + simulate (seed data for gates)
+        run: |
+          .venv/bin/python -m anime_lakehouse.ingest.anilist --pages 4
+          .venv/bin/python -m anime_lakehouse.ingest.simulate_playback
+
+      - name: Build warehouse
+        run: |
+          cd transform && ../.venv/bin/dbt build --profiles-dir .
+
+      - name: Run gate lattice
+        run: |
+          ci/gate.sh --robot --trigger ci | tee gate-output.ndjson
+
+      - name: Upload run record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-run-record
+          path: data/labboard/runs/*.json
+          retention-days: 30
+
+      - name: Upload NDJSON log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-ndjson-log
+          path: gate-output.ndjson
+          retention-days: 30
