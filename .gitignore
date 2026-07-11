@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+transform/target/
+transform/dbt_packages/
+transform/logs/
+transform/*.duckdb
+logs/
+.env
+.databricks/
+.user.yml
+uv.lock

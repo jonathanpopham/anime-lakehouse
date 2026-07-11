@@ -1,0 +1,16 @@
+name: anime_lakehouse
+version: "0.1.0"
+profile: anime_lakehouse
+
+model-paths: ["models"]
+target-path: target
+
+vars:
+  bronze_root: "../data/bronze"
+
+models:
+  anime_lakehouse:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

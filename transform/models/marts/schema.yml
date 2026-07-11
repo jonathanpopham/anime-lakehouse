@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_title
+    description: One row per title in the catalog, with LLM-derived mood tags when enrichment has run.
+    columns:
+      - name: title_key
+        tests: [unique, not_null]
+  - name: dim_user
+    description: One row per registered user.
+    columns:
+      - name: user_key
+        tests: [unique, not_null]
+  - name: fact_playback
+    description: One row per (user, title, episode) viewing session with QoE measures.
+    columns:
+      - name: event_id
+        tests: [unique, not_null]
+      - name: user_key
+        tests:
+          - relationships:
+              to: ref('dim_user')
+              field: user_key
+      - name: title_key
+        tests:
+          - relationships:
+              to: ref('dim_title')
+              field: title_key
+  - name: episode_dropoff
+    description: Episode-2 retention per title; the lab's drop-off headline mart.
+    columns:
+      - name: ep2_retention
+        tests:
+          - not_null

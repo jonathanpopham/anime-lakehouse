@@ -1,0 +1,48 @@
+# Databricks Asset Bundle: deploys the same pipeline to a Databricks workspace.
+# Local dev runs on DuckDB; this bundle is the production shape — serverless
+# jobs writing Delta tables governed by Unity Catalog.
+#
+#   databricks auth login --host https://<workspace>.cloud.databricks.com
+#   databricks bundle validate
+#   databricks bundle deploy -t dev
+#   databricks bundle run -t dev catalog_refresh
+bundle:
+  name: anime-lakehouse
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${var.workspace_host}
+
+variables:
+  workspace_host:
+    description: Databricks workspace URL
+    default: ""
+  catalog:
+    description: Unity Catalog catalog name
+    default: anime_lakehouse
+
+resources:
+  jobs:
+    catalog_refresh:
+      name: "[anime-lakehouse] catalog refresh"
+      tasks:
+        - task_key: ingest_media
+          spark_python_task:
+            python_file: jobs/ingest_media.py
+            parameters: ["--catalog", "${var.catalog}"]
+          environment_key: default
+        - task_key: dbt_build
+          depends_on: [{ task_key: ingest_media }]
+          dbt_task:
+            project_directory: ../transform
+            commands: ["dbt build --target databricks"]
+      environments:
+        - environment_key: default
+          spec:
+            client: "2"
+            dependencies: ["requests"]
+      trigger:
+        periodic: { interval: 1, unit: DAYS }

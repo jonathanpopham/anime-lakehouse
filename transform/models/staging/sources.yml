@@ -1,0 +1,4 @@
+version: 2
+
+# Bronze is file-landed parquet (local dev) / Delta tables (Databricks).
+# Staging models own the read; nothing downstream touches bronze directly.

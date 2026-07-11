@@ -1,0 +1,18 @@
+# Two targets, one project: `dev` runs the whole warehouse locally on DuckDB
+# for a fast iteration loop; `databricks` deploys the same models to a
+# Databricks workspace (Unity Catalog three-part naming via catalog/schema).
+anime_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: warehouse.duckdb
+      threads: 4
+    databricks:
+      type: databricks
+      catalog: anime_lakehouse
+      schema: core
+      host: "{{ env_var('DATABRICKS_HOST', '') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH', '') }}"
+      auth_type: oauth
+      threads: 4
