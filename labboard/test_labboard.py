@@ -44,6 +44,14 @@ def server(tmp_path):
         "GATE_SH": str(FAKE_GATE),
         "PYTHONUNBUFFERED": "1",
     }
+
+    golden_dir = ROOT / "evals" / "golden"
+    golden_backup = {}
+    for f in ["title_moods_golden.jsonl", "title_moods_golden.pass2.jsonl"]:
+        p = golden_dir / f
+        if p.exists():
+            golden_backup[f] = p.read_text()
+
     proc = subprocess.Popen(
         [sys.executable, str(SERVER_PY), "--port", str(port)],
         env=env,
@@ -64,9 +72,12 @@ def server(tmp_path):
         runs_dir = ROOT / "data" / "labboard"
         if runs_dir.exists():
             shutil.rmtree(runs_dir)
-        golden_dir = ROOT / "evals" / "golden"
-        if golden_dir.exists():
-            shutil.rmtree(golden_dir)
+        for f in ["title_moods_golden.jsonl", "title_moods_golden.pass2.jsonl"]:
+            p = golden_dir / f
+            if f in golden_backup:
+                p.write_text(golden_backup[f])
+            elif p.exists():
+                p.unlink()
 
 
 def _get_json(port: int, path: str) -> object:
