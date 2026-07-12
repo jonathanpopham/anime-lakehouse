@@ -64,6 +64,9 @@ def server(tmp_path):
         runs_dir = ROOT / "data" / "labboard"
         if runs_dir.exists():
             shutil.rmtree(runs_dir)
+        golden_dir = ROOT / "evals" / "golden"
+        if golden_dir.exists():
+            shutil.rmtree(golden_dir)
 
 
 def _get_json(port: int, path: str) -> object:
@@ -190,3 +193,137 @@ class TestLabboard:
             assert r.status == 200
             content = r.read().decode()
             assert "labboard" in content
+
+
+class TestLabeling:
+    def test_label_page_serves(self, server):
+        req = urllib.request.Request(f"http://127.0.0.1:{server}/label")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            assert r.status == 200
+            assert "label" in r.read().decode().lower()
+
+    def test_label_titles_returns_data(self, server):
+        data = _get_json(server, "/api/label/titles?mode=pass1")
+        assert "titles" in data
+        assert "mood_tags" in data
+        assert len(data["titles"]) <= 50
+        assert len(data["mood_tags"]) == 5
+        if data["titles"]:
+            t = data["titles"][0]
+            assert "media_id" in t
+            assert "title" in t
+            assert "synopsis" in t
+
+    def test_save_label_and_read_jsonl(self, server):
+        data = _get_json(server, "/api/label/titles?mode=pass1")
+        assert data["titles"], "no titles in warehouse"
+        title = data["titles"][0]
+
+        payload = json.dumps({
+            "media_id": title["media_id"],
+            "title": title["title"],
+            "mood_tags": ["dark", "hype"],
+            "mode": "pass1",
+        }).encode()
+
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{server}/api/label/save",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            resp = json.loads(r.read())
+            assert resp["ok"] is True
+            assert resp["record"]["media_id"] == title["media_id"]
+            assert resp["record"]["mood_tags"] == ["dark", "hype"]
+
+        golden_path = ROOT / "evals" / "golden" / "title_moods_golden.jsonl"
+        assert golden_path.exists(), "JSONL file not created"
+        lines = golden_path.read_text().strip().splitlines()
+        found = False
+        for line in lines:
+            obj = json.loads(line)
+            if obj["media_id"] == title["media_id"]:
+                assert obj["mood_tags"] == ["dark", "hype"]
+                assert obj["title"] == title["title"]
+                found = True
+                break
+        assert found, "label not found in JSONL"
+
+    def test_save_label_validation(self, server):
+        status, data = _post_json(server, "/api/label/save")
+        assert status == 400
+
+        payload = json.dumps({
+            "media_id": 99999,
+            "title": "test",
+            "mood_tags": [],
+        }).encode()
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{server}/api/label/save",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            urllib.request.urlopen(req, timeout=5)
+            assert False, "should have raised"
+        except urllib.error.HTTPError as e:
+            assert e.code == 400
+
+    def test_save_label_updates_existing(self, server):
+        data = _get_json(server, "/api/label/titles?mode=pass1")
+        title = data["titles"][0]
+
+        for tags in [["cozy"], ["melancholy", "absurd"]]:
+            payload = json.dumps({
+                "media_id": title["media_id"],
+                "title": title["title"],
+                "mood_tags": tags,
+                "mode": "pass1",
+            }).encode()
+            req = urllib.request.Request(
+                f"http://127.0.0.1:{server}/api/label/save",
+                data=payload,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            urllib.request.urlopen(req, timeout=5)
+
+        golden_path = ROOT / "evals" / "golden" / "title_moods_golden.jsonl"
+        lines = golden_path.read_text().strip().splitlines()
+        matches = [json.loads(l) for l in lines if json.loads(l)["media_id"] == title["media_id"]]
+        assert len(matches) == 1, "should deduplicate by media_id"
+        assert matches[0]["mood_tags"] == ["absurd", "melancholy"]
+
+    def test_pass2_writes_separate_file(self, server):
+        data = _get_json(server, "/api/label/titles?mode=pass2")
+        title = data["titles"][0]
+
+        payload = json.dumps({
+            "media_id": title["media_id"],
+            "title": title["title"],
+            "mood_tags": ["cozy", "dark"],
+            "mode": "pass2",
+        }).encode()
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{server}/api/label/save",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=5)
+
+        pass2_path = ROOT / "evals" / "golden" / "title_moods_golden.pass2.jsonl"
+        assert pass2_path.exists()
+        lines = pass2_path.read_text().strip().splitlines()
+        assert any(json.loads(l)["media_id"] == title["media_id"] for l in lines)
+
+    def test_report_endpoint(self, server):
+        data = _get_json(server, "/api/label/report")
+        assert "report" in data
+        assert "summary" in data
+        assert "pass1_count" in data["summary"]
+        assert "pass2_count" in data["summary"]
+        assert "avg_agreement" in data["summary"]

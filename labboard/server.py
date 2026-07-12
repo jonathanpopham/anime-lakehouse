@@ -5,15 +5,23 @@ Surface (default 127.0.0.1:8377):
   GET  /api/runs     → JSON list of run records, newest first
   POST /api/run      → spawn gate.sh --robot --trigger labboard; 409 if live
   GET  /api/stream?run_id=X → SSE, one data: frame per NDJSON event
+  GET  /label        → golden-set labeling page (pass 1)
+  GET  /label/pass2  → second-pass labeling (shuffled, labels hidden)
+  GET  /label/report → per-title agreement report
+  GET  /api/label/titles?mode=pass1|pass2 → top 50 titles JSON
+  POST /api/label/save → write label to JSONL
+  GET  /api/label/report → agreement data JSON
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import pathlib
 import queue
+import random
 import signal
 import subprocess
 import sys
@@ -29,6 +37,13 @@ RUNS_DIR = ROOT / "data" / "labboard" / "runs"
 LIVE_DIR = ROOT / "data" / "labboard" / "live"
 GATE_SH = os.environ.get("GATE_SH", str(ROOT / "ci" / "gate.sh"))
 HTML_PATH = LABBOARD_DIR / "index.html"
+LABEL_HTML_PATH = LABBOARD_DIR / "label.html"
+REPORT_HTML_PATH = LABBOARD_DIR / "report.html"
+WAREHOUSE_PATH = ROOT / "transform" / "warehouse.duckdb"
+GOLDEN_DIR = ROOT / "evals" / "golden"
+GOLDEN_JSONL = GOLDEN_DIR / "title_moods_golden.jsonl"
+GOLDEN_PASS2_JSONL = GOLDEN_DIR / "title_moods_golden.pass2.jsonl"
+MOOD_TAGS = ["dark", "cozy", "hype", "melancholy", "absurd"]
 
 
 class RunManager:
@@ -162,6 +177,18 @@ class Handler(BaseHTTPRequestHandler):
                 self._json_response(400, {"error": "run_id required"})
                 return
             self._serve_stream(run_id)
+        elif path == "/label":
+            self._serve_file(LABEL_HTML_PATH)
+        elif path == "/label/pass2":
+            self._serve_file(LABEL_HTML_PATH)
+        elif path == "/label/report":
+            self._serve_file(REPORT_HTML_PATH)
+        elif path == "/api/label/titles":
+            params = parse_qs(parsed.query)
+            mode = params.get("mode", ["pass1"])[0]
+            self._serve_label_titles(mode)
+        elif path == "/api/label/report":
+            self._serve_label_report()
         else:
             self._json_response(404, {"error": "not found"})
 
@@ -171,6 +198,8 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/api/run":
             self._start_run()
+        elif path == "/api/label/save":
+            self._save_label()
         else:
             self._json_response(404, {"error": "not found"})
 
@@ -234,6 +263,162 @@ class Handler(BaseHTTPRequestHandler):
             pass
         finally:
             _manager.unsubscribe(run_id, sub_q)
+
+    def _serve_file(self, path: pathlib.Path) -> None:
+        try:
+            content = path.read_bytes()
+        except FileNotFoundError:
+            self._json_response(500, {"error": f"{path.name} not found"})
+            return
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(content)))
+        self.end_headers()
+        self.wfile.write(content)
+
+    def _serve_label_titles(self, mode: str) -> None:
+        try:
+            import duckdb
+            con = duckdb.connect(str(WAREHOUSE_PATH), read_only=True)
+            rows = con.execute(
+                "SELECT title_key, title, synopsis, popularity "
+                "FROM dim_title ORDER BY popularity DESC LIMIT 50"
+            ).fetchall()
+            con.close()
+        except Exception as e:
+            self._json_response(500, {"error": f"warehouse query failed: {e}"})
+            return
+
+        titles = [
+            {"media_id": r[0], "title": r[1], "synopsis": r[2] or "", "popularity": r[3]}
+            for r in rows
+        ]
+
+        if mode == "pass2":
+            seed = hashlib.sha256(b"pass2-shuffle").digest()
+            rng = random.Random(int.from_bytes(seed[:8], "big"))
+            rng.shuffle(titles)
+
+        existing: dict[int, list[str]] = {}
+        if mode == "pass1" and GOLDEN_JSONL.exists():
+            for line in GOLDEN_JSONL.read_text().strip().splitlines():
+                try:
+                    obj = json.loads(line)
+                    existing[obj["media_id"]] = obj["mood_tags"]
+                except (json.JSONDecodeError, KeyError):
+                    continue
+
+        self._json_response(200, {
+            "titles": titles,
+            "mood_tags": MOOD_TAGS,
+            "mode": mode,
+            "existing": existing if mode == "pass1" else {},
+        })
+
+    def _save_label(self) -> None:
+        length = int(self.headers.get("Content-Length", 0))
+        if length == 0:
+            self._json_response(400, {"error": "empty body"})
+            return
+        body = self.rfile.read(length)
+        try:
+            data = json.loads(body)
+        except json.JSONDecodeError:
+            self._json_response(400, {"error": "invalid JSON"})
+            return
+
+        media_id = data.get("media_id")
+        title = data.get("title", "")
+        mood_tags = data.get("mood_tags", [])
+        mode = data.get("mode", "pass1")
+
+        if not media_id:
+            self._json_response(400, {"error": "media_id required"})
+            return
+        if not isinstance(mood_tags, list) or not (1 <= len(mood_tags) <= 3):
+            self._json_response(400, {"error": "mood_tags must have 1-3 items"})
+            return
+        if not all(t in MOOD_TAGS for t in mood_tags):
+            self._json_response(400, {"error": f"mood_tags must be from {MOOD_TAGS}"})
+            return
+
+        target = GOLDEN_PASS2_JSONL if mode == "pass2" else GOLDEN_JSONL
+        GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
+
+        record = {"media_id": media_id, "title": title, "mood_tags": sorted(mood_tags)}
+
+        if target.exists():
+            lines = target.read_text().strip().splitlines()
+            updated = False
+            for i, line in enumerate(lines):
+                try:
+                    obj = json.loads(line)
+                    if obj.get("media_id") == media_id:
+                        lines[i] = json.dumps(record, ensure_ascii=False)
+                        updated = True
+                        break
+                except json.JSONDecodeError:
+                    continue
+            if updated:
+                target.write_text("\n".join(lines) + "\n")
+            else:
+                with target.open("a") as f:
+                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        else:
+            with target.open("w") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+        self._json_response(200, {"ok": True, "record": record})
+
+    def _serve_label_report(self) -> None:
+        pass1: dict[int, dict] = {}
+        pass2: dict[int, dict] = {}
+
+        if GOLDEN_JSONL.exists():
+            for line in GOLDEN_JSONL.read_text().strip().splitlines():
+                try:
+                    obj = json.loads(line)
+                    pass1[obj["media_id"]] = obj
+                except (json.JSONDecodeError, KeyError):
+                    continue
+
+        if GOLDEN_PASS2_JSONL.exists():
+            for line in GOLDEN_PASS2_JSONL.read_text().strip().splitlines():
+                try:
+                    obj = json.loads(line)
+                    pass2[obj["media_id"]] = obj
+                except (json.JSONDecodeError, KeyError):
+                    continue
+
+        report = []
+        all_ids = sorted(set(pass1.keys()) | set(pass2.keys()))
+        for mid in all_ids:
+            p1 = pass1.get(mid)
+            p2 = pass2.get(mid)
+            entry: dict = {"media_id": mid, "title": (p1 or p2 or {}).get("title", "")}
+            entry["pass1_tags"] = p1["mood_tags"] if p1 else None
+            entry["pass2_tags"] = p2["mood_tags"] if p2 else None
+            if p1 and p2:
+                s1, s2 = set(p1["mood_tags"]), set(p2["mood_tags"])
+                entry["agreement"] = len(s1 & s2) / len(s1 | s2) if (s1 | s2) else 0.0
+            else:
+                entry["agreement"] = None
+            report.append(entry)
+
+        total = len(report)
+        both = [r for r in report if r["agreement"] is not None]
+        avg_agreement = sum(r["agreement"] for r in both) / len(both) if both else None
+
+        self._json_response(200, {
+            "report": report,
+            "summary": {
+                "total_titles": total,
+                "pass1_count": len(pass1),
+                "pass2_count": len(pass2),
+                "both_count": len(both),
+                "avg_agreement": round(avg_agreement, 4) if avg_agreement is not None else None,
+            }
+        })
 
     def _json_response(self, code: int, data: object) -> None:
         body = json.dumps(data).encode()
