@@ -14,7 +14,7 @@ Budget about 45 minutes for the first run, most of it waiting on the workspace.
 ## Prerequisites
 
 - Databricks CLI v1.7 or newer (`databricks --version`). Already installed at
-  `~/.local/bin/databricks` on this machine.
+  `~/.local/bin/databricks` if installed via the script below.
 - This repo cloned, venv active, `uv pip install -e ".[databricks]"` run.
 
 ## 1. Create the workspace
