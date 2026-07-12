@@ -9,7 +9,12 @@ on:
 
 jobs:
   gates:
-    runs-on: [self-hosted, linux]
+    # GitHub-hosted, deliberately. The gate lattice is pure Python + DuckDB and
+    # needs no special hardware, so there is no reason to expose a self-hosted
+    # runner to arbitrary pull-request code on a public repository.
+    # To run on your own hardware instead, see docs/ci-linux-box.md and swap
+    # this for: runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4

@@ -1,6 +1,6 @@
 # anime-lakehouse Wave 2: completion, coordination, audit
 
-Status: ACTIVE. Owner: the operator. Integrator: operator session.
+Status: ACTIVE. Integrator: operator session.
 Date: 2026-07-11. Bead prefix: aml. Predecessor: docs/PLAN-wave1-flywheel.md.
 
 ## 1. Scope

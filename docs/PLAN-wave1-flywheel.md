@@ -1,6 +1,6 @@
 # anime-lakehouse — Wave 1: CI gates, labboard, simlab, Databricks readiness
 
-Status: ACTIVE · Owner: the operator (integrator: main session) · Date: 2026-07-11
+Status: ACTIVE · Integrator: main session · Date: 2026-07-11
 Bead prefix: `aml` · Execution: ultracode (3 agents, disjoint file sets, own worktrees)
 
 ## 1. Why this wave exists
@@ -15,9 +15,9 @@ stands on its own, and a credible path onto Databricks itself.
 Wave 1 turns "trust me, it's tested" into "watch it test itself."
 
 Non-goals for this wave: live LLM enrichment runs (needs ANTHROPIC_API_KEY —
-the operator-only), Databricks workspace creation (needs an account), golden
+operator-only), Databricks workspace creation (needs an account), golden
 set labeling (50 titles, human task; a labeling helper is backlog `aml-15`),
-public GitHub publication (a later decision).
+public GitHub publication.
 
 ## 2. Architecture decisions (with why)
 
@@ -29,7 +29,7 @@ implementation. This is the repo's `verify.sh` in playbook terms.
 
 **D2. labboard is stdlib-only Python.** `http.server.ThreadingHTTPServer`,
 Server-Sent Events for live streaming, zero new dependencies. Why: the repo's
-runtime deps stay honest (a project repo that drags in FastAPI to serve one
+runtime deps stay honest (a repo that drags in FastAPI to serve one
 page undermines the "prototype vs long-term judgment" story); SSE over
 WebSockets because the traffic is strictly server→client log streaming and SSE
 works through `http.server` without a framework.
@@ -46,28 +46,29 @@ inlines them and also ports the simulator's continuation rule to JS with a
 seeded PRNG so sliders (tone weight / genre weight) re-run a 2,000-user
 simulation live in the browser. Why: the artifact host blocks all external
 requests (strict CSP), so self-contained is mandatory; the interactive
-simulator is the difference between a chart screenshot and a demo a VP
-remembers — and it makes the planted-signal methodology *manipulable*, which
-is the honest version of flashy. Publication via the Artifact tool is
-integrator-only (agents cannot publish).
+simulator makes the planted-signal methodology manipulable rather than merely
+asserted, which is the point: the reader can move the parameters and watch the
+variance decomposition change. Publication is integrator-only.
 
-**D5. CI = GitHub Actions on a self-hosted Linux runner.** Workflow pins
-`runs-on: [self-hosted, linux]`; a setup script + runbook bring up the runner
-as a systemd service on a Linux box. Why GH Actions rather than
-Gitea/Woodpecker: the repo will eventually be public project surface — a
-green Actions badge is legible to a reader in a way a homelab Woodpecker
-isn't; self-hosting the runner keeps execution local (his requirement) while
-the workflow file stays boring and standard.
+**D5. CI = GitHub Actions.** The committed workflow runs on GitHub-hosted
+runners; a setup script + runbook also bring up a self-hosted runner as a
+systemd service on a Linux box for those who want local execution. Why GH
+Actions rather than
+Gitea/Woodpecker: a green Actions badge is legible to any reader in a way a
+homelab Woodpecker is not, and the workflow file stays boring and standard.
+Note: the committed workflow runs on GitHub-hosted runners; self-hosting is
+documented as an option but must not be enabled on a public repo, where
+pull-request code would execute on your own hardware.
 
 **D6. DuckDB stays the CI database.** Gates run against the local DuckDB
 warehouse, not Databricks. Why: deterministic, free, seconds-fast, no secrets
 in CI; the Databricks bundle is deploy surface, validated separately (D7).
 
-**D7. Databricks readiness = bundle validates + a runbook an operator can follow
-in under 30 minutes.** `databricks bundle validate` must pass locally (CLI
+**D7. Databricks readiness = bundle validates + a runbook an operator can
+follow in under 30 minutes.** `databricks bundle validate` must pass locally (CLI
 install documented); the runbook covers Free Edition signup → OAuth login →
 bundle deploy → `dbt build --target databricks` → where screenshots go in the
-README. Why: the only step that genuinely requires the operator is account
+README. Why: the only step that genuinely requires a human is account
 creation; everything around it should be pre-chewed so the "runs on
 Databricks" box gets ticked the same evening a workspace exists.
 
@@ -209,7 +210,7 @@ aml-1 (plan+beads, done)
   ├─► aml-11 bundle validate ──► aml-12 databricks runbook
   └─► ... all ──► aml-13 integrate+verify ──► aml-14 README+commit
 backlog: aml-15 golden-set labeling helper (labboard page), aml-16 enrichment
-run + eval on real key (the operator), aml-17 Databricks deploy (the operator)
+run + eval on real key, aml-17 Databricks deploy
 ```
 
 `aml-5` depends on `aml-2` only through contract §3.1/3.2 (frozen above), so
@@ -244,7 +245,7 @@ is the contract test.
 - Plan-review deviation: the playbook's 4× GPT-Pro review rounds were not run
   (not drivable from this session). Mitigation: contracts frozen in §3 are the
   highest-risk surface and were self-checked (self-containment, DAG acyclicity,
-  justification sampling, steady-state on second pass). an operator can paste
+  justification sampling, steady-state on second pass). The plan can be pasted
   this plan into GPT Pro Extended Reasoning at leisure; integration happens
   through beads either way.
 ```
