@@ -9,7 +9,7 @@ on:
 
 jobs:
   gates:
-    # GitHub-hosted, deliberately. The gate lattice is pure Python + DuckDB and
+    # GitHub-hosted, deliberately. The gate lattice is pure Python and DuckDB and
     # needs no special hardware, so there is no reason to expose a self-hosted
     # runner to arbitrary pull-request code on a public repository.
     # To run on your own hardware instead, see docs/ci-linux-box.md and swap
@@ -19,23 +19,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
       - name: Set up Python venv
         run: |
           uv venv --python 3.12
           uv pip install -e ".[dev]"
 
-      - name: Ingest + simulate (seed data for gates)
+      - name: Seed bronze from the committed catalog snapshot
+        # CI does NOT hit the AniList API. The catalog is ranked by live
+        # popularity, so a fresh ingest returns a different set of titles every
+        # day, which would make the goldens gate fail for reasons unrelated to
+        # the code. tests/fixtures/anilist_media_snapshot.parquet is the exact
+        # snapshot the goldens were frozen against, so CI is hermetic and the
+        # goldens mean what they claim. Refresh it deliberately, alongside the
+        # goldens, via `make ingest && python scripts/freeze_goldens.py`.
         run: |
-          .venv/bin/python -m anime_lakehouse.ingest.anilist --pages 4
+          mkdir -p "data/bronze/anilist_media/ingest_date=fixture"
+          cp tests/fixtures/anilist_media_snapshot.parquet \
+             "data/bronze/anilist_media/ingest_date=fixture/media.parquet"
           .venv/bin/python -m anime_lakehouse.ingest.simulate_playback
 
       - name: Build warehouse
-        run: |
-          cd transform && ../.venv/bin/dbt build --profiles-dir .
+        run: cd transform && ../.venv/bin/dbt build --profiles-dir .
 
       - name: Run gate lattice
-        run: |
-          ci/gate.sh --robot --trigger ci | tee gate-output.ndjson
+        run: ci/gate.sh --robot --trigger ci | tee gate-output.ndjson
 
       - name: Upload run record
         if: always()
