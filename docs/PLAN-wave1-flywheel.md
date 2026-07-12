@@ -7,11 +7,10 @@ Bead prefix: `aml` · Execution: ultracode (3 agents, disjoint file sets, own wo
 
 The repo already proves the pipeline works (200 real AniList titles → bronze,
 149k simulated QoE events, 16/16 dbt models+tests on DuckDB, 5/5 pytest,
-eval harness with a regression gate). What it does NOT yet prove — and what the
-project's reliability goals specifically needs — is that the *reliability
-story is visible*: gates that run on every change, a UI where a human watches
-evals and tests execute live, a shareable simulation page that can ride along
-with a job application, and a credible path onto Databricks itself.
+eval harness with a regression gate). What it does NOT yet prove is that the
+*reliability story is visible*: gates that run on every change, a UI where a
+human watches evals and tests execute live, a shareable simulation page that
+stands on its own, and a credible path onto Databricks itself.
 
 Wave 1 turns "trust me, it's tested" into "watch it test itself."
 
@@ -69,8 +68,8 @@ in under 30 minutes.** `databricks bundle validate` must pass locally (CLI
 install documented); the runbook covers Free Edition signup → OAuth login →
 bundle deploy → `dbt build --target databricks` → where screenshots go in the
 README. Why: the only step that genuinely requires the operator is account
-creation; everything around it should be pre-chewed so the project's
-"ran it on Databricks" box gets ticked the same evening access exists.
+creation; everything around it should be pre-chewed so the "runs on
+Databricks" box gets ticked the same evening a workspace exists.
 
 ## 3. Contracts (normative — agents implement to these exactly)
 

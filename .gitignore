@@ -11,3 +11,4 @@ logs/
 .databricks/
 .user.yml
 uv.lock
+.ntm/
