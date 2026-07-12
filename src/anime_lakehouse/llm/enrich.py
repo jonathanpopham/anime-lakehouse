@@ -17,6 +17,7 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 import duckdb
@@ -37,43 +38,80 @@ def load_titles(warehouse: Path, limit: int | None) -> list[dict]:
     return con.execute(q).to_arrow_table().to_pylist()
 
 
+def _get_tracer():
+    """Langfuse client, or None when it is unavailable or unconfigured.
+
+    The tracing surface moved in Langfuse 3: the langfuse.decorators module is
+    gone and the client is reached through get_client(). Pinning >=3 in
+    pyproject keeps this import honest, and returning None (rather than
+    swallowing the failure) makes an untraced run visible instead of silent.
+    """
+    if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
+        return None
+    from langfuse import get_client
+
+    return get_client()
+
+
 def classify(titles: list[dict], model: str) -> list[dict]:
     import anthropic
 
-    try:
-        from langfuse import observe  # noqa: F401
-        from langfuse.decorators import langfuse_context
-        traced = bool(os.environ.get("LANGFUSE_PUBLIC_KEY"))
-    except ImportError:
-        traced = False
-    if not traced:
-        print("WARNING: Langfuse not configured — running untraced", file=sys.stderr)
+    langfuse = _get_tracer()
+    if langfuse is None:
+        print("WARNING: LANGFUSE_PUBLIC_KEY unset, running untraced", file=sys.stderr)
 
     client = anthropic.Anthropic()
     now = dt.datetime.now(dt.timezone.utc).isoformat()
     results = []
     for t in titles:
+        started = time.monotonic()
         msg = client.messages.create(
             model=model,
             max_tokens=100,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": t["synopsis"][:2000]}],
         )
+        latency_ms = round((time.monotonic() - started) * 1000)
         raw = msg.content[0].text.strip()
         try:
             tags = [tag for tag in json.loads(raw) if tag in MOOD_TAGS]
+            parse_ok = True
         except (json.JSONDecodeError, TypeError):
-            tags = []
+            tags, parse_ok = [], False
+
+        if langfuse is not None:
+            # One generation span per title. The eval reads these traces back,
+            # so latency and token counts are recorded here rather than derived.
+            with langfuse.start_as_current_observation(
+                name="mood_enrichment",
+                as_type="generation",
+                model=model,
+                input=t["synopsis"][:2000],
+                metadata={"media_id": t["media_id"], "title": t["title"]},
+            ) as span:
+                span.update(
+                    output={"mood_tags": tags, "raw": raw, "parse_ok": parse_ok},
+                    usage_details={
+                        "input": msg.usage.input_tokens,
+                        "output": msg.usage.output_tokens,
+                    },
+                )
+
         results.append({
             "media_id": t["media_id"],
             "mood_tags": tags,
             "raw_response": raw,
+            "parse_ok": parse_ok,
+            "latency_ms": latency_ms,
             "input_tokens": msg.usage.input_tokens,
             "output_tokens": msg.usage.output_tokens,
             "enrichment_model": model,
             "enriched_at": now,
         })
         print(f"  {t['title']}: {tags}")
+
+    if langfuse is not None:
+        langfuse.flush()
     return results
 
 
@@ -81,7 +119,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--warehouse", type=Path, default=Path("transform/warehouse.duckdb"))
     parser.add_argument("--out", type=Path, default=Path("data/enriched/title_moods.parquet"))
-    parser.add_argument("--model", default="claude-haiku-4-5-20251001")
+    parser.add_argument("--model", default="claude-haiku-4-5")
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
 

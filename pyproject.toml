@@ -18,7 +18,7 @@ orchestration = [
 ]
 llm = [
     "anthropic>=0.40",
-    "langfuse>=2.50",
+    "langfuse>=3.0",
 ]
 databricks = [
     "dbt-databricks>=1.9",
