@@ -1,0 +1,339 @@
+<title>labboard / label</title>
+<style>
+:root {
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-raised: #242423;
+  --ink: #ededec;
+  --ink-muted: #898781;
+  --border: #2a2a28;
+  --accent: #3987e5;
+  --pass: #0ca30c;
+  --mono: "SF Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-raised: #f0efed;
+    --ink: #0b0b0b;
+    --ink-muted: #898781;
+    --border: #dddcd8;
+    --accent: #2a78d6;
+    --pass: #0ca30c;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0d0d0d; --surface: #1a1a19; --surface-raised: #242423;
+  --ink: #ededec; --ink-muted: #898781; --border: #2a2a28;
+  --accent: #3987e5; --pass: #0ca30c;
+}
+:root[data-theme="light"] {
+  --page: #f9f9f7; --surface: #fcfcfb; --surface-raised: #f0efed;
+  --ink: #0b0b0b; --ink-muted: #898781; --border: #dddcd8;
+  --accent: #2a78d6; --pass: #0ca30c;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--page);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.header-title span { color: var(--ink); }
+
+.progress {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.nav-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.nav-links a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.title-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.title-card.saved {
+  border-color: color-mix(in srgb, var(--pass) 40%, transparent);
+}
+
+.title-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.title-synopsis {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+  max-height: 80px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.tag-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  font-size: 12px;
+  font-family: var(--mono);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.1s, background 0.1s;
+}
+
+.tag-label:hover { border-color: var(--accent); }
+
+.tag-label input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.tag-label.checked {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+.tag-label.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.save-indicator {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--pass);
+  margin-left: auto;
+  padding: 2px 8px;
+}
+
+.error-msg {
+  font-size: 12px;
+  color: #d03b3b;
+  margin-top: 6px;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+</style>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-title"><span>label</span> golden set</div>
+    <div class="progress" id="progress"></div>
+  </div>
+  <div class="nav-links">
+    <a href="/label">pass 1</a>
+    <a href="/label/pass2">pass 2</a>
+    <a href="/label/report">report</a>
+    <a href="/">gates</a>
+  </div>
+</div>
+
+<div class="container" id="container">
+  <div class="loading">Loading titles...</div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var container = document.getElementById("container");
+  var progressEl = document.getElementById("progress");
+  var mode = window.location.pathname.indexOf("pass2") !== -1 ? "pass2" : "pass1";
+
+  function escHtml(s) {
+    var d = document.createElement("div");
+    d.textContent = s || "";
+    return d.innerHTML;
+  }
+
+  function updateProgress() {
+    var saved = document.querySelectorAll(".title-card.saved").length;
+    var total = document.querySelectorAll(".title-card").length;
+    progressEl.textContent = saved + "/" + total;
+  }
+
+  function enforceTagLimits(card) {
+    var checks = card.querySelectorAll("input[type=checkbox]");
+    var checked = [];
+    checks.forEach(function (cb) { if (cb.checked) checked.push(cb); });
+
+    checks.forEach(function (cb) {
+      var label = cb.parentElement;
+      if (checked.length >= 3 && !cb.checked) {
+        label.classList.add("disabled");
+        cb.disabled = true;
+      } else {
+        label.classList.remove("disabled");
+        cb.disabled = false;
+      }
+      label.classList.toggle("checked", cb.checked);
+    });
+  }
+
+  function saveLabel(card, mediaId, title) {
+    var checks = card.querySelectorAll("input[type=checkbox]:checked");
+    var tags = [];
+    checks.forEach(function (cb) { tags.push(cb.value); });
+
+    if (tags.length < 1 || tags.length > 3) return;
+
+    var errEl = card.querySelector(".error-msg");
+    if (errEl) errEl.remove();
+
+    fetch("/api/label/save", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({media_id: mediaId, title: title, mood_tags: tags, mode: mode})
+    })
+    .then(function (r) { return r.json().then(function (d) { return {status: r.status, data: d}; }); })
+    .then(function (res) {
+      if (res.status === 200) {
+        card.classList.add("saved");
+        var ind = card.querySelector(".save-indicator");
+        if (!ind) {
+          ind = document.createElement("span");
+          ind.className = "save-indicator";
+          card.querySelector(".tag-row").appendChild(ind);
+        }
+        ind.textContent = "saved";
+        updateProgress();
+      } else {
+        var msg = document.createElement("div");
+        msg.className = "error-msg";
+        msg.textContent = res.data.error || "save failed";
+        card.appendChild(msg);
+      }
+    })
+    .catch(function () {
+      var msg = document.createElement("div");
+      msg.className = "error-msg";
+      msg.textContent = "network error";
+      card.appendChild(msg);
+    });
+  }
+
+  fetch("/api/label/titles?mode=" + mode)
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      container.innerHTML = "";
+      var titles = data.titles;
+      var existing = data.existing || {};
+
+      titles.forEach(function (t) {
+        var card = document.createElement("div");
+        card.className = "title-card";
+        var existingTags = existing[t.media_id] || [];
+        if (existingTags.length > 0) card.classList.add("saved");
+
+        var synopsis = t.synopsis || "";
+        if (synopsis.length > 300) synopsis = synopsis.substring(0, 300) + "...";
+
+        var tagsHtml = data.mood_tags.map(function (tag) {
+          var checked = existingTags.indexOf(tag) !== -1 ? " checked" : "";
+          return '<label class="tag-label' + (checked ? " checked" : "") + '">' +
+            '<input type="checkbox" value="' + tag + '"' + checked + '> ' + tag +
+            '</label>';
+        }).join("");
+
+        card.innerHTML =
+          '<div class="title-name">' + escHtml(t.title) + '</div>' +
+          '<div class="title-synopsis">' + escHtml(synopsis) + '</div>' +
+          '<div class="tag-row">' + tagsHtml +
+            (existingTags.length > 0 ? '<span class="save-indicator">saved</span>' : '') +
+          '</div>';
+
+        card.querySelectorAll("input[type=checkbox]").forEach(function (cb) {
+          cb.addEventListener("change", function () {
+            enforceTagLimits(card);
+            var checked = card.querySelectorAll("input[type=checkbox]:checked");
+            if (checked.length >= 1 && checked.length <= 3) {
+              saveLabel(card, t.media_id, t.title);
+            }
+          });
+        });
+
+        enforceTagLimits(card);
+        container.appendChild(card);
+      });
+
+      updateProgress();
+    })
+    .catch(function (err) {
+      container.innerHTML = '<div class="loading">Failed to load: ' + err.message + '</div>';
+    });
+})();
+</script>

@@ -1,0 +1,242 @@
+<title>labboard / label report</title>
+<style>
+:root {
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-raised: #242423;
+  --ink: #ededec;
+  --ink-muted: #898781;
+  --border: #2a2a28;
+  --accent: #3987e5;
+  --pass: #0ca30c;
+  --fail: #d03b3b;
+  --mono: "SF Mono", "Cascadia Code", "Fira Code", ui-monospace, monospace;
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --page: #f9f9f7; --surface: #fcfcfb; --surface-raised: #f0efed;
+    --ink: #0b0b0b; --ink-muted: #898781; --border: #dddcd8;
+    --accent: #2a78d6; --pass: #0ca30c; --fail: #d03b3b;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0d0d0d; --surface: #1a1a19; --surface-raised: #242423;
+  --ink: #ededec; --ink-muted: #898781; --border: #2a2a28;
+  --accent: #3987e5; --pass: #0ca30c; --fail: #d03b3b;
+}
+:root[data-theme="light"] {
+  --page: #f9f9f7; --surface: #fcfcfb; --surface-raised: #f0efed;
+  --ink: #0b0b0b; --ink-muted: #898781; --border: #dddcd8;
+  --accent: #2a78d6; --pass: #0ca30c; --fail: #d03b3b;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--page);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.header-title span { color: var(--ink); }
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+}
+.nav-links a { color: var(--accent); text-decoration: none; }
+.nav-links a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead { background: var(--surface); }
+
+th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+
+.tag-list {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.agreement-cell {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.agreement-cell.high { color: var(--pass); }
+.agreement-cell.low { color: var(--fail); }
+.agreement-cell.na { color: var(--ink-muted); }
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-muted);
+}
+</style>
+
+<div class="header">
+  <div class="header-title"><span>report</span> label agreement</div>
+  <div class="nav-links">
+    <a href="/label">pass 1</a>
+    <a href="/label/pass2">pass 2</a>
+    <a href="/label/report">report</a>
+    <a href="/">gates</a>
+  </div>
+</div>
+
+<div class="container" id="container">
+  <div class="loading">Loading report...</div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var container = document.getElementById("container");
+
+  function escHtml(s) {
+    var d = document.createElement("div");
+    d.textContent = s || "";
+    return d.innerHTML;
+  }
+
+  fetch("/api/label/report")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var s = data.summary;
+      var report = data.report;
+
+      var avgPct = s.avg_agreement != null ? (s.avg_agreement * 100).toFixed(1) + "%" : "n/a";
+
+      container.innerHTML =
+        '<div class="summary">' +
+          '<div class="stat"><div class="stat-value">' + s.pass1_count + '</div><div class="stat-label">pass 1 labeled</div></div>' +
+          '<div class="stat"><div class="stat-value">' + s.pass2_count + '</div><div class="stat-label">pass 2 labeled</div></div>' +
+          '<div class="stat"><div class="stat-value">' + s.both_count + '</div><div class="stat-label">both passes</div></div>' +
+          '<div class="stat"><div class="stat-value">' + avgPct + '</div><div class="stat-label">avg agreement</div></div>' +
+        '</div>';
+
+      if (report.length === 0) {
+        container.innerHTML += '<div class="loading">No labels recorded yet</div>';
+        return;
+      }
+
+      var tableHtml =
+        '<div class="table-wrap"><table>' +
+        '<thead><tr><th>title</th><th>pass 1</th><th>pass 2</th><th>agreement</th></tr></thead>' +
+        '<tbody>';
+
+      report.forEach(function (r) {
+        var p1 = r.pass1_tags ? r.pass1_tags.join(", ") : "";
+        var p2 = r.pass2_tags ? r.pass2_tags.join(", ") : "";
+        var agr = "";
+        var cls = "na";
+        if (r.agreement != null) {
+          agr = (r.agreement * 100).toFixed(0) + "%";
+          cls = r.agreement >= 0.5 ? "high" : "low";
+        }
+        tableHtml +=
+          '<tr>' +
+            '<td>' + escHtml(r.title) + '</td>' +
+            '<td class="tag-list">' + escHtml(p1) + '</td>' +
+            '<td class="tag-list">' + escHtml(p2) + '</td>' +
+            '<td class="agreement-cell ' + cls + '">' + agr + '</td>' +
+          '</tr>';
+      });
+
+      tableHtml += '</tbody></table></div>';
+      container.innerHTML += tableHtml;
+    })
+    .catch(function (err) {
+      container.innerHTML = '<div class="loading">Failed: ' + err.message + '</div>';
+    });
+})();
+</script>
