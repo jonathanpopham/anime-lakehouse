@@ -196,6 +196,7 @@ RUN_DURATION=$(elapsed "$STARTED_AT" "$FINISHED_AT")
 emit "{\"event\":\"run_end\",\"run_id\":\"${RUN_ID}\",\"status\":\"${RUN_STATUS}\",\"duration_s\":${RUN_DURATION},\"ts\":\"${FINISHED_AT}\"}"
 
 # Write run record (§3.2)
+mkdir -p "$RUN_DIR"
 GATES_ARRAY=$(paste -sd',' "$GATE_JSON_FILE")
 RUN_RECORD="{\"run_id\":\"${RUN_ID}\",\"started_at\":\"${STARTED_AT}\",\"finished_at\":\"${FINISHED_AT}\",\"status\":\"${RUN_STATUS}\",\"trigger\":\"${TRIGGER}\",\"gates\":[${GATES_ARRAY}]}"
 echo "$RUN_RECORD" | python -m json.tool > "${RUN_DIR}/${RUN_ID}.json"
