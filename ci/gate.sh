@@ -19,7 +19,7 @@ RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$(head -c 4 /dev/urandom | xxd -p | cut -c1-4
 RUN_DIR="${REPO_ROOT}/data/labboard/runs"
 mkdir -p "$RUN_DIR"
 
-GATES=(pytest determinism dbt_build eval_gate)
+GATES=(pytest determinism dbt_build eval_gate goldens)
 if [[ -n "$SINGLE_GATE" ]]; then
     GATES=("$SINGLE_GATE")
 fi
@@ -136,6 +136,26 @@ run_gate() {
                 return
             fi
             (cd "$REPO_ROOT" && python evals/run_eval.py 2>&1) > "$tmpout" || cmd_exit=$?
+            stream_file "$gate" "$tmpout"
+            ;;
+        goldens)
+            local golden_dir="${REPO_ROOT}/tests/golden"
+            if [[ ! -f "${golden_dir}/episode_dropoff.golden.csv" ]] && \
+               [[ ! -f "${golden_dir}/dim_title_summary.golden.csv" ]]; then
+                status="skip"
+                local reason="no golden CSVs in tests/golden/"
+                emit "{\"event\":\"log\",\"run_id\":\"${RUN_ID}\",\"gate\":\"${gate}\",\"line\":$(json_str "skip: $reason"),\"ts\":\"$(ts)\"}"
+                human "  skip: $reason"
+                gate_end="$(ts)"
+                duration_s=$(elapsed "$gate_start" "$gate_end")
+                emit "{\"event\":\"gate_end\",\"run_id\":\"${RUN_ID}\",\"gate\":\"${gate}\",\"status\":\"skip\",\"reason\":\"${reason}\",\"duration_s\":${duration_s},\"ts\":\"${gate_end}\"}"
+                human "  -> SKIP (${duration_s}s)"
+                human ""
+                echo "{\"gate\":\"${gate}\",\"status\":\"skip\",\"duration_s\":${duration_s},\"tail\":[]}" >> "$GATE_JSON_FILE"
+                rm -f "$tmpout"
+                return
+            fi
+            (cd "$REPO_ROOT" && python scripts/freeze_goldens.py --check 2>&1) > "$tmpout" || cmd_exit=$?
             stream_file "$gate" "$tmpout"
             ;;
         *)
