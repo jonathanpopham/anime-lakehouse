@@ -15,7 +15,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$(head -c 4 /dev/urandom | xxd -p | cut -c1-4)"
+RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-$(od -An -tx1 -N2 /dev/urandom | tr -d ' ')"
 RUN_DIR="${REPO_ROOT}/data/labboard/runs"
 mkdir -p "$RUN_DIR"
 
@@ -113,11 +113,12 @@ run_gate() {
             rm -rf "$tmp1" "$tmp2"
             ;;
         dbt_build)
-            local dbt_cmd="dbt build --profiles-dir ."
+            local -a dbt_args=(build --profiles-dir .)
             if [[ -f "${REPO_ROOT}/data/enriched/title_moods.parquet" ]]; then
-                dbt_cmd="dbt build --profiles-dir . --vars {enriched: true}"
+                # dbt requires JSON-quoted vars when the value is a bare boolean
+                dbt_args+=(--vars '{"enriched": true}')
             fi
-            (cd "${REPO_ROOT}/transform" && eval "$dbt_cmd" 2>&1) > "$tmpout" || cmd_exit=$?
+            (cd "${REPO_ROOT}/transform" && dbt "${dbt_args[@]}" 2>&1) > "$tmpout" || cmd_exit=$?
             stream_file "$gate" "$tmpout"
             ;;
         eval_gate)
