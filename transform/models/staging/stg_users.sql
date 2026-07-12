@@ -4,4 +4,4 @@ select
     primary_device,
     region,
     favorite_genre
-from read_parquet('{{ var("bronze_root") }}/users/*.parquet')
+from {{ bronze('users', 'users/*.parquet') }}

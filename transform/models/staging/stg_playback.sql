@@ -11,7 +11,7 @@ select
     startup_time_ms,
     device,
     region
-from read_parquet('{{ var("bronze_root") }}/playback_events/*.parquet')
+from {{ bronze('playback_events', 'playback_events/*.parquet') }}
 where user_id is not null
   and media_id is not null
   and watch_pct between 0 and 1

@@ -5,5 +5,5 @@ select
     primary_device,
     region,
     favorite_genre,
-    date_diff('day', signup_date, current_date) as tenure_days
+    {{ days_between('signup_date', 'current_date') }} as tenure_days
 from {{ ref('stg_users') }}

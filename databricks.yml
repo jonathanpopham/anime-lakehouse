@@ -1,0 +1,64 @@
+# Databricks Asset Bundle: deploys this pipeline to a Databricks workspace.
+# Local dev runs on DuckDB; this bundle is the production shape: serverless jobs
+# writing Delta tables governed by Unity Catalog.
+#
+# This file lives at the repository root, not under databricks/, because the
+# bundle's sync root is the directory containing it. The dbt task needs
+# transform/, and the Python task needs databricks/jobs/, so the root has to
+# contain both.
+#
+#   export DATABRICKS_HOST=https://<workspace>.cloud.databricks.com
+#   databricks auth login --host "$DATABRICKS_HOST"
+#   databricks bundle validate
+#   databricks bundle deploy -t dev
+#   databricks bundle run -t dev catalog_refresh
+bundle:
+  name: anime-lakehouse
+
+targets:
+  dev:
+    mode: development
+    default: true
+
+variables:
+  catalog:
+    description: Unity Catalog catalog name
+    default: anime_lakehouse
+  warehouse_id:
+    description: SQL warehouse the dbt task runs against
+    default: "0185cbc0944afca1"
+
+sync:
+  # Keep local-only state out of the workspace upload.
+  exclude:
+    - data/**
+    - .venv/**
+    - .beads/**
+    - beads_compliance_audit/**
+    - transform/warehouse.duckdb
+    - transform/target/**
+    - transform/logs/**
+
+resources:
+  jobs:
+    catalog_refresh:
+      name: "[anime-lakehouse] catalog refresh"
+      tasks:
+        - task_key: ingest_media
+          spark_python_task:
+            python_file: databricks/jobs/ingest_media.py
+            parameters: ["--catalog", "${var.catalog}"]
+          environment_key: default
+        - task_key: dbt_build
+          depends_on: [{ task_key: ingest_media }]
+          dbt_task:
+            project_directory: transform
+            profiles_directory: transform
+            commands: ["dbt build --target databricks"]
+            warehouse_id: ${var.warehouse_id}
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "2"
+            dependencies: ["requests", "dbt-databricks>=1.9"]

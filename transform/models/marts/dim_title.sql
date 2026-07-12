@@ -3,12 +3,20 @@
 -- --vars '{enriched: true}' once data/enriched/title_moods.parquet exists;
 -- the default keeps the warehouse buildable before enrichment has run.
 with enrichment as (
-    {% if var('enriched', false) %}
+    {% if var('enriched', false) and target.type == 'duckdb' %}
     select media_id, mood_tags, enrichment_model, enriched_at
     from read_parquet('{{ var("bronze_root") }}/../enriched/title_moods.parquet')
+    {% elif var('enriched', false) %}
+    select media_id, mood_tags, enrichment_model, enriched_at
+    from {{ target.catalog }}.bronze.title_moods
     {% else %}
-    select null::bigint as media_id, null::varchar[] as mood_tags,
-           null::varchar as enrichment_model, null::timestamp as enriched_at
+    -- Empty stub so the warehouse builds before enrichment has run. The array
+    -- type is spelled differently per engine, hence the branch.
+    select
+        cast(null as bigint) as media_id,
+        cast(null as {% if target.type == 'duckdb' %}varchar[]{% else %}array<string>{% endif %}) as mood_tags,
+        cast(null as {% if target.type == 'duckdb' %}varchar{% else %}string{% endif %}) as enrichment_model,
+        cast(null as timestamp) as enriched_at
     where false
     {% endif %}
 )
@@ -17,7 +25,7 @@ select
     m.title,
     m.title_romaji,
     m.genres,
-    m.genres[1]                     as primary_genre,
+    {{ first_element('m.genres') }} as primary_genre,
     m.synopsis,
     m.average_score,
     m.popularity,
