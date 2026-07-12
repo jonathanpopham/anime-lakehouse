@@ -22,6 +22,7 @@ import os
 import pathlib
 import queue
 import random
+import re
 import signal
 import subprocess
 import sys
@@ -44,6 +45,16 @@ GOLDEN_DIR = ROOT / "evals" / "golden"
 GOLDEN_JSONL = GOLDEN_DIR / "title_moods_golden.jsonl"
 GOLDEN_PASS2_JSONL = GOLDEN_DIR / "title_moods_golden.pass2.jsonl"
 MOOD_TAGS = ["dark", "cozy", "hype", "melancholy", "absurd"]
+_VALID_RUN_ID = re.compile(r"^\d{8}T\d{6}Z-[0-9a-f]{4,}$")
+
+
+def _validate_run_id(run_id: str) -> bool:
+    if not _VALID_RUN_ID.match(run_id):
+        return False
+    filename = f"{run_id}.ndjson"
+    if os.sep in filename or "\0" in filename:
+        return False
+    return True
 
 
 class RunManager:
@@ -77,7 +88,7 @@ class RunManager:
             self._process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
+                stderr=subprocess.PIPE,
                 bufsize=0,
             )
 
@@ -98,6 +109,11 @@ class RunManager:
                 for raw in proc.stdout:
                     line = raw.decode("utf-8", errors="replace").rstrip("\n")
                     if not line:
+                        continue
+                    try:
+                        json.loads(line)
+                    except json.JSONDecodeError:
+                        sys.stderr.write(f"[labboard] skipping non-JSON line: {line[:120]}\n")
                         continue
                     live_file.write(line + "\n")
                     live_file.flush()
@@ -175,6 +191,9 @@ class Handler(BaseHTTPRequestHandler):
             run_id = params.get("run_id", [None])[0]
             if not run_id:
                 self._json_response(400, {"error": "run_id required"})
+                return
+            if not _validate_run_id(run_id):
+                self._json_response(400, {"error": "invalid run_id"})
                 return
             self._serve_stream(run_id)
         elif path == "/label":

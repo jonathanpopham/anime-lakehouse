@@ -205,6 +205,33 @@ class TestLabboard:
             content = r.read().decode()
             assert "labboard" in content
 
+    def test_bad_run_id_returns_400(self, server):
+        bad_ids = [
+            "../../../etc/passwd",
+            "../../secrets",
+            "not-a-valid-id",
+            "20260711T193000Z-ZZZZ",
+            "20260711T193000Z-abcd/../../x",
+        ]
+        for bad_id in bad_ids:
+            from urllib.parse import quote
+            url = f"http://127.0.0.1:{server}/api/stream?run_id={quote(bad_id)}"
+            req = urllib.request.Request(url)
+            try:
+                urllib.request.urlopen(req, timeout=5)
+                assert False, f"expected 400 for run_id={bad_id!r}"
+            except urllib.error.HTTPError as e:
+                assert e.code == 400, f"got {e.code} for run_id={bad_id!r}"
+
+    def test_non_json_lines_not_forwarded(self, server):
+        status, data = _post_json(server, "/api/run")
+        assert status == 200
+        run_id = data["run_id"]
+        events = _read_sse(server, run_id)
+        for ev in events:
+            assert isinstance(ev, dict), "non-JSON line leaked into SSE stream"
+            assert "event" in ev
+
 
 class TestLabeling:
     def test_label_page_serves(self, server):

@@ -31,6 +31,11 @@ STARTED_AT="$(NOW_UTC)"
 
 emit "{\"event\":\"run_start\",\"run_id\":\"$RUN_ID\",\"ts\":\"$(NOW_UTC)\",\"gates\":[\"pytest\",\"eval_gate\"]}"
 
+# Deliberate non-JSON noise on stdout to exercise the NDJSON line filter
+if $ROBOT; then
+    printf 'WARNING: this is not JSON and should be filtered out\n'
+fi
+
 # Gate 1: pytest — pass
 emit "{\"event\":\"gate_start\",\"run_id\":\"$RUN_ID\",\"gate\":\"pytest\",\"ts\":\"$(NOW_UTC)\"}"
 sleep 0.05
