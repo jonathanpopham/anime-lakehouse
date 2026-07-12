@@ -2,7 +2,11 @@
 # Local dev runs on DuckDB; this bundle is the production shape — serverless
 # jobs writing Delta tables governed by Unity Catalog.
 #
-#   databricks auth login --host https://<workspace>.cloud.databricks.com
+# Workspace host is read from DATABRICKS_HOST env var (not interpolated in YAML
+# because the bundle schema forbids interpolation on auth fields).
+#
+#   export DATABRICKS_HOST=https://<workspace>.cloud.databricks.com
+#   databricks auth login
 #   databricks bundle validate
 #   databricks bundle deploy -t dev
 #   databricks bundle run -t dev catalog_refresh
@@ -13,13 +17,8 @@ targets:
   dev:
     mode: development
     default: true
-    workspace:
-      host: ${var.workspace_host}
 
 variables:
-  workspace_host:
-    description: Databricks workspace URL
-    default: ""
   catalog:
     description: Unity Catalog catalog name
     default: anime_lakehouse
