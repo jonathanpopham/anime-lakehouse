@@ -1,0 +1,3540 @@
+{
+  "generated_at": "2026-07-12T00:10:04.350634+00:00",
+  "catalog_n": 200,
+  "users_n": 5000,
+  "events_n": 149223,
+  "dbt_tests": {
+    "passed": 16,
+    "total": 16
+  },
+  "pytest": {
+    "passed": 5,
+    "total": 5
+  },
+  "retention_hist": [
+    [
+      0.6458,
+      1
+    ],
+    [
+      0.7193,
+      1
+    ],
+    [
+      0.72,
+      1
+    ],
+    [
+      0.7239,
+      1
+    ],
+    [
+      0.7288,
+      1
+    ],
+    [
+      0.7297,
+      1
+    ],
+    [
+      0.7302,
+      1
+    ],
+    [
+      0.7321,
+      1
+    ],
+    [
+      0.747,
+      1
+    ],
+    [
+      0.75,
+      2
+    ],
+    [
+      0.7525,
+      1
+    ],
+    [
+      0.7583,
+      1
+    ],
+    [
+      0.7586,
+      2
+    ],
+    [
+      0.7593,
+      1
+    ],
+    [
+      0.7612,
+      1
+    ],
+    [
+      0.7625,
+      1
+    ],
+    [
+      0.7626,
+      1
+    ],
+    [
+      0.7627,
+      1
+    ],
+    [
+      0.7647,
+      1
+    ],
+    [
+      0.7681,
+      1
+    ],
+    [
+      0.77,
+      1
+    ],
+    [
+      0.7748,
+      1
+    ],
+    [
+      0.7755,
+      1
+    ],
+    [
+      0.7761,
+      1
+    ],
+    [
+      0.7763,
+      1
+    ],
+    [
+      0.7769,
+      1
+    ],
+    [
+      0.7778,
+      1
+    ],
+    [
+      0.7802,
+      1
+    ],
+    [
+      0.781,
+      1
+    ],
+    [
+      0.7826,
+      1
+    ],
+    [
+      0.7843,
+      1
+    ],
+    [
+      0.7895,
+      1
+    ],
+    [
+      0.7903,
+      1
+    ],
+    [
+      0.791,
+      2
+    ],
+    [
+      0.7927,
+      1
+    ],
+    [
+      0.7941,
+      1
+    ],
+    [
+      0.7945,
+      1
+    ],
+    [
+      0.7955,
+      1
+    ],
+    [
+      0.7971,
+      1
+    ],
+    [
+      0.798,
+      1
+    ],
+    [
+      0.8,
+      3
+    ],
+    [
+      0.8016,
+      1
+    ],
+    [
+      0.8065,
+      1
+    ],
+    [
+      0.8088,
+      1
+    ],
+    [
+      0.809,
+      3
+    ],
+    [
+      0.8095,
+      2
+    ],
+    [
+      0.8108,
+      1
+    ],
+    [
+      0.8112,
+      1
+    ],
+    [
+      0.8125,
+      2
+    ],
+    [
+      0.8152,
+      1
+    ],
+    [
+      0.8161,
+      1
+    ],
+    [
+      0.8171,
+      1
+    ],
+    [
+      0.8191,
+      1
+    ],
+    [
+      0.8193,
+      1
+    ],
+    [
+      0.8197,
+      1
+    ],
+    [
+      0.8214,
+      2
+    ],
+    [
+      0.8231,
+      1
+    ],
+    [
+      0.8235,
+      2
+    ],
+    [
+      0.825,
+      1
+    ],
+    [
+      0.8265,
+      1
+    ],
+    [
+      0.8267,
+      1
+    ],
+    [
+      0.8273,
+      1
+    ],
+    [
+      0.8283,
+      1
+    ],
+    [
+      0.8286,
+      1
+    ],
+    [
+      0.8289,
+      2
+    ],
+    [
+      0.8293,
+      1
+    ],
+    [
+      0.8311,
+      1
+    ],
+    [
+      0.8315,
+      1
+    ],
+    [
+      0.8317,
+      1
+    ],
+    [
+      0.8319,
+      1
+    ],
+    [
+      0.8333,
+      1
+    ],
+    [
+      0.8356,
+      1
+    ],
+    [
+      0.837,
+      1
+    ],
+    [
+      0.8393,
+      1
+    ],
+    [
+      0.8395,
+      1
+    ],
+    [
+      0.8417,
+      1
+    ],
+    [
+      0.844,
+      2
+    ],
+    [
+      0.8444,
+      1
+    ],
+    [
+      0.8455,
+      1
+    ],
+    [
+      0.8471,
+      1
+    ],
+    [
+      0.8475,
+      1
+    ],
+    [
+      0.8485,
+      1
+    ],
+    [
+      0.8495,
+      1
+    ],
+    [
+      0.8514,
+      2
+    ],
+    [
+      0.8521,
+      1
+    ],
+    [
+      0.8523,
+      1
+    ],
+    [
+      0.8539,
+      1
+    ],
+    [
+      0.8542,
+      1
+    ],
+    [
+      0.8559,
+      1
+    ],
+    [
+      0.8571,
+      3
+    ],
+    [
+      0.8588,
+      1
+    ],
+    [
+      0.8596,
+      1
+    ],
+    [
+      0.8621,
+      1
+    ],
+    [
+      0.8624,
+      1
+    ],
+    [
+      0.8632,
+      2
+    ],
+    [
+      0.8636,
+      1
+    ],
+    [
+      0.8657,
+      1
+    ],
+    [
+      0.866,
+      1
+    ],
+    [
+      0.8667,
+      1
+    ],
+    [
+      0.8673,
+      1
+    ],
+    [
+      0.8676,
+      1
+    ],
+    [
+      0.8679,
+      1
+    ],
+    [
+      0.8684,
+      1
+    ],
+    [
+      0.8686,
+      1
+    ],
+    [
+      0.8696,
+      2
+    ],
+    [
+      0.8701,
+      1
+    ],
+    [
+      0.8704,
+      1
+    ],
+    [
+      0.8714,
+      1
+    ],
+    [
+      0.8716,
+      1
+    ],
+    [
+      0.8725,
+      1
+    ],
+    [
+      0.873,
+      1
+    ],
+    [
+      0.8737,
+      1
+    ],
+    [
+      0.875,
+      2
+    ],
+    [
+      0.876,
+      1
+    ],
+    [
+      0.8772,
+      1
+    ],
+    [
+      0.8778,
+      1
+    ],
+    [
+      0.8806,
+      2
+    ],
+    [
+      0.8808,
+      1
+    ],
+    [
+      0.8814,
+      1
+    ],
+    [
+      0.883,
+      1
+    ],
+    [
+      0.8841,
+      1
+    ],
+    [
+      0.8857,
+      1
+    ],
+    [
+      0.8871,
+      1
+    ],
+    [
+      0.8873,
+      1
+    ],
+    [
+      0.8876,
+      2
+    ],
+    [
+      0.8879,
+      1
+    ],
+    [
+      0.888,
+      1
+    ],
+    [
+      0.8881,
+      1
+    ],
+    [
+      0.8889,
+      1
+    ],
+    [
+      0.892,
+      1
+    ],
+    [
+      0.8925,
+      1
+    ],
+    [
+      0.8929,
+      1
+    ],
+    [
+      0.8933,
+      1
+    ],
+    [
+      0.8936,
+      1
+    ],
+    [
+      0.8939,
+      2
+    ],
+    [
+      0.8942,
+      1
+    ],
+    [
+      0.8947,
+      2
+    ],
+    [
+      0.8954,
+      1
+    ],
+    [
+      0.8986,
+      1
+    ],
+    [
+      0.9,
+      1
+    ],
+    [
+      0.9012,
+      3
+    ],
+    [
+      0.9043,
+      1
+    ],
+    [
+      0.9048,
+      2
+    ],
+    [
+      0.9053,
+      1
+    ],
+    [
+      0.9057,
+      1
+    ],
+    [
+      0.9059,
+      1
+    ],
+    [
+      0.9063,
+      1
+    ],
+    [
+      0.9074,
+      2
+    ],
+    [
+      0.9085,
+      1
+    ],
+    [
+      0.9091,
+      2
+    ],
+    [
+      0.9096,
+      1
+    ],
+    [
+      0.9097,
+      1
+    ],
+    [
+      0.9098,
+      1
+    ],
+    [
+      0.9101,
+      1
+    ],
+    [
+      0.9103,
+      1
+    ],
+    [
+      0.9115,
+      1
+    ],
+    [
+      0.9125,
+      1
+    ],
+    [
+      0.9151,
+      1
+    ],
+    [
+      0.9159,
+      1
+    ],
+    [
+      0.9167,
+      1
+    ],
+    [
+      0.9179,
+      1
+    ],
+    [
+      0.9186,
+      1
+    ],
+    [
+      0.9194,
+      1
+    ],
+    [
+      0.9221,
+      1
+    ],
+    [
+      0.9222,
+      1
+    ],
+    [
+      0.9231,
+      1
+    ],
+    [
+      0.9239,
+      1
+    ],
+    [
+      0.9275,
+      1
+    ],
+    [
+      0.9301,
+      1
+    ],
+    [
+      0.9375,
+      1
+    ],
+    [
+      0.9381,
+      1
+    ],
+    [
+      0.9516,
+      1
+    ]
+  ],
+  "genre_means": [
+    [
+      "Adventure",
+      0.8527,
+      9
+    ],
+    [
+      "Action",
+      0.8501,
+      127
+    ],
+    [
+      "Drama",
+      0.8409,
+      20
+    ],
+    [
+      "Comedy",
+      0.8304,
+      41
+    ]
+  ],
+  "variance_explained": {
+    "genre_eta2": 0.022,
+    "tone_r2": 0.47
+  },
+  "device_qoe": [
+    [
+      "console",
+      0.33,
+      907,
+      0.347
+    ],
+    [
+      "mobile",
+      0.83,
+      1399,
+      0.34
+    ],
+    [
+      "tv",
+      0.33,
+      904,
+      0.343
+    ],
+    [
+      "web",
+      0.32,
+      903,
+      0.342
+    ]
+  ],
+  "titles_sample": [
+    [
+      "The Promised Neverland Season 2",
+      "Action",
+      0.9516,
+      62
+    ],
+    [
+      "DARLING in the FRANXX",
+      "Action",
+      0.9381,
+      113
+    ],
+    [
+      "The Seven Deadly Sins: Revival of the Commandments",
+      "Action",
+      0.9375,
+      64
+    ],
+    [
+      "Sword Art Online",
+      "Action",
+      0.9301,
+      186
+    ],
+    [
+      "Sword Art Online: Alicization",
+      "Action",
+      0.9275,
+      69
+    ],
+    [
+      "Love, Chunibyo & Other Delusions",
+      "Comedy",
+      0.9239,
+      92
+    ],
+    [
+      "Kaiju No. 8",
+      "Action",
+      0.9231,
+      52
+    ],
+    [
+      "JoJo's Bizarre Adventure: Golden Wind",
+      "Action",
+      0.9222,
+      90
+    ],
+    [
+      "Beyond the Boundary",
+      "Action",
+      0.9221,
+      77
+    ],
+    [
+      "Demon Slayer: Kimetsu no Yaiba",
+      "Action",
+      0.9194,
+      211
+    ],
+    [
+      "HAIKYU!! 3rd Season",
+      "Comedy",
+      0.9186,
+      86
+    ],
+    [
+      "Hunter x Hunter (2011)",
+      "Action",
+      0.9179,
+      195
+    ],
+    [
+      "Attack on Titan Final Season Part 2",
+      "Action",
+      0.9167,
+      120
+    ],
+    [
+      "Mob Psycho 100 II",
+      "Action",
+      0.9159,
+      107
+    ],
+    [
+      "Naruto",
+      "Action",
+      0.9151,
+      212
+    ],
+    [
+      "Attack on Titan Season 3",
+      "Action",
+      0.6458,
+      192
+    ],
+    [
+      "HAIKYU!! TO THE TOP",
+      "Comedy",
+      0.7193,
+      57
+    ],
+    [
+      "DON'T TOY WITH ME, MISS NAGATORO",
+      "Comedy",
+      0.72,
+      75
+    ],
+    [
+      "Violet Evergarden",
+      "Drama",
+      0.7239,
+      134
+    ],
+    [
+      "Bungo Stray Dogs",
+      "Action",
+      0.7288,
+      118
+    ],
+    [
+      "JoJo's Bizarre Adventure: Stardust Crusaders",
+      "Action",
+      0.7297,
+      74
+    ],
+    [
+      "Durarara!!",
+      "Action",
+      0.7302,
+      63
+    ],
+    [
+      "TONIKAWA: Over The Moon For You",
+      "Comedy",
+      0.7321,
+      56
+    ],
+    [
+      "Oshi No Ko",
+      "Drama",
+      0.747,
+      83
+    ],
+    [
+      "Overlord III",
+      "Action",
+      0.75,
+      64
+    ],
+    [
+      "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
+      "Action",
+      0.75,
+      124
+    ],
+    [
+      "Angel Beats!",
+      "Action",
+      0.7525,
+      101
+    ],
+    [
+      "Charlotte",
+      "Comedy",
+      0.7583,
+      120
+    ],
+    [
+      "My Hero Academia",
+      "Action",
+      0.7586,
+      203
+    ],
+    [
+      "Fate/Zero Season 2",
+      "Action",
+      0.7586,
+      58
+    ]
+  ],
+  "sim_catalog": [
+    {
+      "id": 1,
+      "title": "Cowboy Bebop",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.2244,
+        0.4063,
+        0.7733,
+        0.4298,
+        0.0425
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Monster",
+      "genre": "Drama",
+      "episodes": 74,
+      "tone": [
+        0.4714,
+        0.4159,
+        0.451,
+        0.4714,
+        0.4233
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Naruto",
+      "genre": "Action",
+      "episodes": 220,
+      "tone": [
+        0.3543,
+        0.3122,
+        0.4279,
+        0.5441,
+        0.5458
+      ]
+    },
+    {
+      "id": 21,
+      "title": "ONE PIECE",
+      "genre": "Action",
+      "episodes": null,
+      "tone": [
+        0.482,
+        0.0254,
+        0.3954,
+        0.3066,
+        0.7188
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Neon Genesis Evangelion",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.2233,
+        0.3038,
+        0.6445,
+        0.662,
+        0.0649
+      ]
+    },
+    {
+      "id": 121,
+      "title": "Fullmetal Alchemist",
+      "genre": "Action",
+      "episodes": 51,
+      "tone": [
+        0.2873,
+        0.5442,
+        0.4467,
+        0.5955,
+        0.2592
+      ]
+    },
+    {
+      "id": 205,
+      "title": "Samurai Champloo",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.0587,
+        0.2374,
+        0.5236,
+        0.4722,
+        0.6656
+      ]
+    },
+    {
+      "id": 226,
+      "title": "Elfen Lied",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.5624,
+        0.4234,
+        0.3534,
+        0.5624,
+        0.2514
+      ]
+    },
+    {
+      "id": 269,
+      "title": "Bleach",
+      "genre": "Action",
+      "episodes": 366,
+      "tone": [
+        0.2034,
+        0.3781,
+        0.3043,
+        0.5614,
+        0.6387
+      ]
+    },
+    {
+      "id": 339,
+      "title": "Serial Experiments Lain",
+      "genre": "Drama",
+      "episodes": 13,
+      "tone": [
+        0.6067,
+        0.2898,
+        0.2112,
+        0.6906,
+        0.1625
+      ]
+    },
+    {
+      "id": 813,
+      "title": "Dragon Ball Z",
+      "genre": "Action",
+      "episodes": 291,
+      "tone": [
+        0.6194,
+        0.1837,
+        0.6692,
+        0.2729,
+        0.2454
+      ]
+    },
+    {
+      "id": 853,
+      "title": "Ouran High School Host Club",
+      "genre": "Comedy",
+      "episodes": 26,
+      "tone": [
+        0.1611,
+        0.6226,
+        0.3492,
+        0.6226,
+        0.2771
+      ]
+    },
+    {
+      "id": 889,
+      "title": "Black Lagoon",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4105,
+        0.0907,
+        0.6614,
+        0.6177,
+        0.0648
+      ]
+    },
+    {
+      "id": 918,
+      "title": "Gintama",
+      "genre": "Action",
+      "episodes": 201,
+      "tone": [
+        0.3534,
+        0.1003,
+        0.6391,
+        0.6391,
+        0.2193
+      ]
+    },
+    {
+      "id": 1535,
+      "title": "Death Note",
+      "genre": "Mystery",
+      "episodes": 37,
+      "tone": [
+        0.3445,
+        0.4553,
+        0.5973,
+        0.5373,
+        0.1689
+      ]
+    },
+    {
+      "id": 1575,
+      "title": "Code Geass: Lelouch of the Rebellion",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.4472,
+        0.0556,
+        0.5687,
+        0.5321,
+        0.4362
+      ]
+    },
+    {
+      "id": 1735,
+      "title": "Naruto: Shippuden",
+      "genre": "Action",
+      "episodes": 500,
+      "tone": [
+        0.3624,
+        0.4199,
+        0.4105,
+        0.3543,
+        0.6311
+      ]
+    },
+    {
+      "id": 2001,
+      "title": "Gurren Lagann",
+      "genre": "Action",
+      "episodes": 27,
+      "tone": [
+        0.4628,
+        0.5358,
+        0.281,
+        0.5814,
+        0.2861
+      ]
+    },
+    {
+      "id": 2167,
+      "title": "Clannad",
+      "genre": "Comedy",
+      "episodes": 23,
+      "tone": [
+        0.2317,
+        0.687,
+        0.299,
+        0.3953,
+        0.4782
+      ]
+    },
+    {
+      "id": 2904,
+      "title": "Code Geass: Lelouch of the Rebellion R2",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.4173,
+        0.1943,
+        0.722,
+        0.2819,
+        0.4328
+      ]
+    },
+    {
+      "id": 3588,
+      "title": "Soul Eater",
+      "genre": "Action",
+      "episodes": 51,
+      "tone": [
+        0.3301,
+        0.5697,
+        0.514,
+        0.0611,
+        0.5464
+      ]
+    },
+    {
+      "id": 4224,
+      "title": "Toradora!",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.1902,
+        0.6735,
+        0.103,
+        0.6095,
+        0.3579
+      ]
+    },
+    {
+      "id": 4898,
+      "title": "Black Butler",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5318,
+        0.3419,
+        0.5381,
+        0.1456,
+        0.5381
+      ]
+    },
+    {
+      "id": 5081,
+      "title": "Bakemonogatari",
+      "genre": "Comedy",
+      "episodes": 15,
+      "tone": [
+        0.5413,
+        0.3973,
+        0.1707,
+        0.6726,
+        0.26
+      ]
+    },
+    {
+      "id": 5114,
+      "title": "Fullmetal Alchemist: Brotherhood",
+      "genre": "Action",
+      "episodes": 64,
+      "tone": [
+        0.3986,
+        0.3164,
+        0.4541,
+        0.4191,
+        0.5994
+      ]
+    },
+    {
+      "id": 5680,
+      "title": "K-ON!",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.0694,
+        0.3786,
+        0.5606,
+        0.1734,
+        0.7124
+      ]
+    },
+    {
+      "id": 6045,
+      "title": "Kimi ni Todoke: From Me to You",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.1048,
+        0.5937,
+        0.3795,
+        0.3743,
+        0.5937
+      ]
+    },
+    {
+      "id": 6547,
+      "title": "Angel Beats!",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.0258,
+        0.1947,
+        0.582,
+        0.7266,
+        0.3078
+      ]
+    },
+    {
+      "id": 6702,
+      "title": "Fairy Tail",
+      "genre": "Action",
+      "episodes": 175,
+      "tone": [
+        0.231,
+        0.3715,
+        0.7375,
+        0.1873,
+        0.4792
+      ]
+    },
+    {
+      "id": 6746,
+      "title": "Durarara!!",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.0144,
+        0.5089,
+        0.6121,
+        0.0144,
+        0.6049
+      ]
+    },
+    {
+      "id": 6880,
+      "title": "Deadman Wonderland",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.5895,
+        0.08,
+        0.3714,
+        0.6802,
+        0.2134
+      ]
+    },
+    {
+      "id": 7054,
+      "title": "Maid-Sama!",
+      "genre": "Comedy",
+      "episodes": 26,
+      "tone": [
+        0.0455,
+        0.611,
+        0.2468,
+        0.4379,
+        0.6098
+      ]
+    },
+    {
+      "id": 8074,
+      "title": "High School of the Dead",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.605,
+        0.4674,
+        0.605,
+        0.2224,
+        0.0071
+      ]
+    },
+    {
+      "id": 9253,
+      "title": "Steins;Gate",
+      "genre": "Drama",
+      "episodes": 24,
+      "tone": [
+        0.2748,
+        0.25,
+        0.6571,
+        0.5649,
+        0.3333
+      ]
+    },
+    {
+      "id": 9756,
+      "title": "Puella Magi Madoka Magica",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4095,
+        0.5776,
+        0.3411,
+        0.4248,
+        0.4493
+      ]
+    },
+    {
+      "id": 9919,
+      "title": "Blue Exorcist",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.2076,
+        0.5578,
+        0.6378,
+        0.2226,
+        0.4352
+      ]
+    },
+    {
+      "id": 9989,
+      "title": "Anohana: The Flower We Saw That Day",
+      "genre": "Drama",
+      "episodes": 11,
+      "tone": [
+        0.3527,
+        0.6612,
+        0.5316,
+        0.3183,
+        0.2334
+      ]
+    },
+    {
+      "id": 10087,
+      "title": "Fate/Zero",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.4971,
+        0.4478,
+        0.4523,
+        0.5031,
+        0.3078
+      ]
+    },
+    {
+      "id": 10620,
+      "title": "The Future Diary",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.6467,
+        0.2308,
+        0.3049,
+        0.6467,
+        0.1319
+      ]
+    },
+    {
+      "id": 11061,
+      "title": "Hunter x Hunter (2011)",
+      "genre": "Action",
+      "episodes": 148,
+      "tone": [
+        0.3559,
+        0.5311,
+        0.5742,
+        0.3672,
+        0.3559
+      ]
+    },
+    {
+      "id": 11111,
+      "title": "Another",
+      "genre": "Horror",
+      "episodes": 12,
+      "tone": [
+        0.5619,
+        0.5712,
+        0.1561,
+        0.3106,
+        0.487
+      ]
+    },
+    {
+      "id": 11617,
+      "title": "High School DxD",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.0527,
+        0.5045,
+        0.4914,
+        0.399,
+        0.5848
+      ]
+    },
+    {
+      "id": 11741,
+      "title": "Fate/Zero Season 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.26,
+        0.0158,
+        0.4839,
+        0.5798,
+        0.6015
+      ]
+    },
+    {
+      "id": 11757,
+      "title": "Sword Art Online",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.3104,
+        0.5249,
+        0.582,
+        0.2442,
+        0.4793
+      ]
+    },
+    {
+      "id": 11771,
+      "title": "Kuroko's Basketball",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.041,
+        0.5176,
+        0.5403,
+        0.3688,
+        0.55
+      ]
+    },
+    {
+      "id": 12189,
+      "title": "Hyouka",
+      "genre": "Mystery",
+      "episodes": 22,
+      "tone": [
+        0.1686,
+        0.4066,
+        0.5678,
+        0.6322,
+        0.2901
+      ]
+    },
+    {
+      "id": 13601,
+      "title": "PSYCHO-PASS",
+      "genre": "Action",
+      "episodes": 22,
+      "tone": [
+        0.4997,
+        0.2423,
+        0.5721,
+        0.4902,
+        0.3522
+      ]
+    },
+    {
+      "id": 13759,
+      "title": "The Pet Girl of Sakurasou",
+      "genre": "Comedy",
+      "episodes": 24,
+      "tone": [
+        0.3794,
+        0.4743,
+        0.4452,
+        0.4351,
+        0.4936
+      ]
+    },
+    {
+      "id": 14227,
+      "title": "My Little Monster",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.0547,
+        0.5807,
+        0.476,
+        0.3097,
+        0.5807
+      ]
+    },
+    {
+      "id": 14719,
+      "title": "JoJo's Bizarre Adventure (TV)",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.4892,
+        0.4399,
+        0.5774,
+        0.1631,
+        0.4551
+      ]
+    },
+    {
+      "id": 14741,
+      "title": "Love, Chunibyo & Other Delusions",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.4021,
+        0.5603,
+        0.3603,
+        0.4499,
+        0.4383
+      ]
+    },
+    {
+      "id": 14813,
+      "title": "My Teen Romantic Comedy SNAFU",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.0859,
+        0.5954,
+        0.5381,
+        0.4573,
+        0.3735
+      ]
+    },
+    {
+      "id": 15583,
+      "title": "Date A Live",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4674,
+        0.4865,
+        0.4865,
+        0.2824,
+        0.4779
+      ]
+    },
+    {
+      "id": 15809,
+      "title": "The Devil is a Part-Timer!",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.2454,
+        0.7277,
+        0.1113,
+        0.4566,
+        0.4352
+      ]
+    },
+    {
+      "id": 16498,
+      "title": "Attack on Titan",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.4933,
+        0.078,
+        0.4612,
+        0.6418,
+        0.3549
+      ]
+    },
+    {
+      "id": 17895,
+      "title": "Golden Time",
+      "genre": "Drama",
+      "episodes": 24,
+      "tone": [
+        0.5067,
+        0.1647,
+        0.6175,
+        0.5755,
+        0.0602
+      ]
+    },
+    {
+      "id": 18153,
+      "title": "Beyond the Boundary",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4762,
+        0.5042,
+        0.5177,
+        0.439,
+        0.2413
+      ]
+    },
+    {
+      "id": 18679,
+      "title": "Kill la Kill",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.1964,
+        0.445,
+        0.7826,
+        0.2363,
+        0.3084
+      ]
+    },
+    {
+      "id": 18897,
+      "title": "Nisekoi",
+      "genre": "Comedy",
+      "episodes": 20,
+      "tone": [
+        0.3578,
+        0.6045,
+        0.1138,
+        0.5042,
+        0.4893
+      ]
+    },
+    {
+      "id": 19603,
+      "title": "Fate/stay night: Unlimited Blade Works",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.054,
+        0.5861,
+        0.6253,
+        0.4929,
+        0.1398
+      ]
+    },
+    {
+      "id": 19815,
+      "title": "No Game, No Life",
+      "genre": "Adventure",
+      "episodes": 12,
+      "tone": [
+        0.5568,
+        0.4501,
+        0.3318,
+        0.3294,
+        0.5185
+      ]
+    },
+    {
+      "id": 20447,
+      "title": "Noragami",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.2625,
+        0.1087,
+        0.6761,
+        0.0716,
+        0.6761
+      ]
+    },
+    {
+      "id": 20458,
+      "title": "The Irregular at Magic High School",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.1047,
+        0.6207,
+        0.4631,
+        0.3578,
+        0.5112
+      ]
+    },
+    {
+      "id": 20464,
+      "title": "HAIKYU!!",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.2172,
+        0.0023,
+        0.577,
+        0.5357,
+        0.577
+      ]
+    },
+    {
+      "id": 20474,
+      "title": "JoJo's Bizarre Adventure: Stardust Crusaders",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4692,
+        0.2556,
+        0.8227,
+        0.0356,
+        0.1909
+      ]
+    },
+    {
+      "id": 20594,
+      "title": "Sword Art Online II",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4377,
+        0.418,
+        0.7154,
+        0.2806,
+        0.2076
+      ]
+    },
+    {
+      "id": 20596,
+      "title": "Blue Spring Ride",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.4379,
+        0.564,
+        0.418,
+        0.4152,
+        0.3782
+      ]
+    },
+    {
+      "id": 20605,
+      "title": "Tokyo Ghoul",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.3534,
+        0.2107,
+        0.4149,
+        0.6038,
+        0.5422
+      ]
+    },
+    {
+      "id": 20613,
+      "title": "Akame ga Kill!",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.3897,
+        0.3743,
+        0.5582,
+        0.5582,
+        0.2912
+      ]
+    },
+    {
+      "id": 20623,
+      "title": "Parasyte -the maxim-",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5203,
+        0.3672,
+        0.5203,
+        0.5203,
+        0.2305
+      ]
+    },
+    {
+      "id": 20661,
+      "title": "Terror in Resonance",
+      "genre": "Drama",
+      "episodes": 11,
+      "tone": [
+        0.4189,
+        0.0657,
+        0.6192,
+        0.6426,
+        0.1542
+      ]
+    },
+    {
+      "id": 20665,
+      "title": "Your lie in April",
+      "genre": "Drama",
+      "episodes": 22,
+      "tone": [
+        0.2209,
+        0.7824,
+        0.4326,
+        0.3367,
+        0.1964
+      ]
+    },
+    {
+      "id": 20698,
+      "title": "My Teen Romantic Comedy SNAFU TOO!",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.4528,
+        0.5588,
+        0.0867,
+        0.6415,
+        0.2521
+      ]
+    },
+    {
+      "id": 20755,
+      "title": "Assassination Classroom",
+      "genre": "Action",
+      "episodes": 22,
+      "tone": [
+        0.3353,
+        0.2489,
+        0.5246,
+        0.5246,
+        0.5246
+      ]
+    },
+    {
+      "id": 20789,
+      "title": "The Seven Deadly Sins",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5252,
+        0.4252,
+        0.4924,
+        0.1355,
+        0.5315
+      ]
+    },
+    {
+      "id": 20799,
+      "title": "JoJo's Bizarre Adventure: Stardust Crusaders - Battle in Egypt",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.615,
+        0.1381,
+        0.5784,
+        0.5177,
+        0.0126
+      ]
+    },
+    {
+      "id": 20807,
+      "title": "Prison School",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.3261,
+        0.0939,
+        0.331,
+        0.6151,
+        0.63
+      ]
+    },
+    {
+      "id": 20829,
+      "title": "Seraph of the End: Vampire Reign",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.2386,
+        0.5135,
+        0.5794,
+        0.5794,
+        0.0886
+      ]
+    },
+    {
+      "id": 20832,
+      "title": "Overlord",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.6724,
+        0.526,
+        0.4426,
+        0.1898,
+        0.1979
+      ]
+    },
+    {
+      "id": 20850,
+      "title": "Tokyo Ghoul \u221aA",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.2382,
+        0.4754,
+        0.4759,
+        0.5544,
+        0.4283
+      ]
+    },
+    {
+      "id": 20872,
+      "title": "Plastic Memories",
+      "genre": "Drama",
+      "episodes": 13,
+      "tone": [
+        0.3765,
+        0.6668,
+        0.0,
+        0.1719,
+        0.6197
+      ]
+    },
+    {
+      "id": 20920,
+      "title": "Is It Wrong to Try to Pick Up Girls in a Dungeon?",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.1097,
+        0.2926,
+        0.8458,
+        0.2597,
+        0.3456
+      ]
+    },
+    {
+      "id": 20923,
+      "title": "Food Wars!",
+      "genre": "Comedy",
+      "episodes": 24,
+      "tone": [
+        0.5755,
+        0.0955,
+        0.059,
+        0.379,
+        0.7159
+      ]
+    },
+    {
+      "id": 20931,
+      "title": "Death Parade",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.5852,
+        0.1186,
+        0.3782,
+        0.6303,
+        0.3213
+      ]
+    },
+    {
+      "id": 20958,
+      "title": "Attack on Titan Season 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4626,
+        0.0869,
+        0.3826,
+        0.5891,
+        0.534
+      ]
+    },
+    {
+      "id": 20992,
+      "title": "HAIKYU!! 2nd Season",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.4254,
+        0.0929,
+        0.3131,
+        0.3588,
+        0.764
+      ]
+    },
+    {
+      "id": 20997,
+      "title": "Charlotte",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.1671,
+        0.8394,
+        0.1126,
+        0.3734,
+        0.3397
+      ]
+    },
+    {
+      "id": 21087,
+      "title": "One-Punch Man",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4059,
+        0.547,
+        0.4086,
+        0.445,
+        0.4135
+      ]
+    },
+    {
+      "id": 21092,
+      "title": "Chivalry of a Failed Knight",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.1148,
+        0.4985,
+        0.7703,
+        0.2236,
+        0.3081
+      ]
+    },
+    {
+      "id": 21128,
+      "title": "Noragami Aragoto",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.5467,
+        0.2105,
+        0.4721,
+        0.2608,
+        0.6049
+      ]
+    },
+    {
+      "id": 21170,
+      "title": "Assassination Classroom Second Season",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.3895,
+        0.2771,
+        0.6366,
+        0.4513,
+        0.4032
+      ]
+    },
+    {
+      "id": 21202,
+      "title": "KONOSUBA -God's blessing on this wonderful world!",
+      "genre": "Adventure",
+      "episodes": 10,
+      "tone": [
+        0.6501,
+        0.6368,
+        0.1247,
+        0.0716,
+        0.3887
+      ]
+    },
+    {
+      "id": 21234,
+      "title": "ERASED",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.5036,
+        0.4432,
+        0.1722,
+        0.5356,
+        0.4831
+      ]
+    },
+    {
+      "id": 21311,
+      "title": "Bungo Stray Dogs",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.0746,
+        0.1767,
+        0.7786,
+        0.161,
+        0.5754
+      ]
+    },
+    {
+      "id": 21355,
+      "title": "Re:ZERO -Starting Life in Another World-",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.3742,
+        0.525,
+        0.2846,
+        0.4926,
+        0.5106
+      ]
+    },
+    {
+      "id": 21450,
+      "title": "JoJo's Bizarre Adventure: Diamond is Unbreakable",
+      "genre": "Action",
+      "episodes": 39,
+      "tone": [
+        0.2923,
+        0.0504,
+        0.6425,
+        0.3345,
+        0.6224
+      ]
+    },
+    {
+      "id": 21459,
+      "title": "My Hero Academia",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.0816,
+        0.2005,
+        0.3985,
+        0.503,
+        0.7358
+      ]
+    },
+    {
+      "id": 21507,
+      "title": "Mob Psycho 100",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.1077,
+        0.3909,
+        0.5226,
+        0.5905,
+        0.4623
+      ]
+    },
+    {
+      "id": 21518,
+      "title": "Food Wars! The Second Plate",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.4523,
+        0.1835,
+        0.329,
+        0.0538,
+        0.8066
+      ]
+    },
+    {
+      "id": 21613,
+      "title": "Saga of Tanya the Evil",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4893,
+        0.467,
+        0.5156,
+        0.4408,
+        0.2871
+      ]
+    },
+    {
+      "id": 21698,
+      "title": "HAIKYU!! 3rd Season",
+      "genre": "Comedy",
+      "episodes": 10,
+      "tone": [
+        0.3402,
+        0.3184,
+        0.4766,
+        0.5382,
+        0.5158
+      ]
+    },
+    {
+      "id": 21699,
+      "title": "KONOSUBA -God's blessing on this wonderful world! 2",
+      "genre": "Adventure",
+      "episodes": 10,
+      "tone": [
+        0.5397,
+        0.3341,
+        0.3341,
+        0.2365,
+        0.6554
+      ]
+    },
+    {
+      "id": 21776,
+      "title": "Miss Kobayashi's Dragon Maid",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.3905,
+        0.636,
+        0.0521,
+        0.5058,
+        0.4296
+      ]
+    },
+    {
+      "id": 21804,
+      "title": "The Disastrous Life of Saiki K.",
+      "genre": "Comedy",
+      "episodes": 120,
+      "tone": [
+        0.4336,
+        0.7869,
+        0.1991,
+        0.2345,
+        0.3132
+      ]
+    },
+    {
+      "id": 21827,
+      "title": "Violet Evergarden",
+      "genre": "Drama",
+      "episodes": 13,
+      "tone": [
+        0.6989,
+        0.5676,
+        0.0336,
+        0.2068,
+        0.3815
+      ]
+    },
+    {
+      "id": 21856,
+      "title": "My Hero Academia Season 2",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.5345,
+        0.012,
+        0.5038,
+        0.2889,
+        0.6139
+      ]
+    },
+    {
+      "id": 97668,
+      "title": "One-Punch Man Season 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.1261,
+        0.3804,
+        0.5359,
+        0.5149,
+        0.5359
+      ]
+    },
+    {
+      "id": 97940,
+      "title": "Black Clover",
+      "genre": "Action",
+      "episodes": 170,
+      "tone": [
+        0.5173,
+        0.5719,
+        0.3932,
+        0.3093,
+        0.3938
+      ]
+    },
+    {
+      "id": 97986,
+      "title": "Made in Abyss",
+      "genre": "Adventure",
+      "episodes": 13,
+      "tone": [
+        0.362,
+        0.5165,
+        0.5076,
+        0.5845,
+        0.0537
+      ]
+    },
+    {
+      "id": 98314,
+      "title": "Kakegurui",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.2315,
+        0.5457,
+        0.5055,
+        0.3644,
+        0.5102
+      ]
+    },
+    {
+      "id": 98436,
+      "title": "The Ancient Magus' Bride",
+      "genre": "Drama",
+      "episodes": 24,
+      "tone": [
+        0.2314,
+        0.8551,
+        0.0905,
+        0.4082,
+        0.2012
+      ]
+    },
+    {
+      "id": 98437,
+      "title": "Overlord II",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.2799,
+        0.14,
+        0.5557,
+        0.5314,
+        0.5575
+      ]
+    },
+    {
+      "id": 98659,
+      "title": "Classroom of the Elite",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.0546,
+        0.5275,
+        0.5275,
+        0.5798,
+        0.3229
+      ]
+    },
+    {
+      "id": 99147,
+      "title": "Attack on Titan Season 3",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.0205,
+        0.0029,
+        0.7484,
+        0.6625,
+        0.0235
+      ]
+    },
+    {
+      "id": 99263,
+      "title": "The Rising of the Shield Hero",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.3794,
+        0.0974,
+        0.6537,
+        0.4947,
+        0.4178
+      ]
+    },
+    {
+      "id": 99423,
+      "title": "DARLING in the FRANXX",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.2735,
+        0.4102,
+        0.5012,
+        0.5128,
+        0.4927
+      ]
+    },
+    {
+      "id": 99539,
+      "title": "The Seven Deadly Sins: Revival of the Commandments",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5846,
+        0.2595,
+        0.4935,
+        0.22,
+        0.5468
+      ]
+    },
+    {
+      "id": 99578,
+      "title": "Wotakoi: Love is Hard for Otaku",
+      "genre": "Comedy",
+      "episodes": 11,
+      "tone": [
+        0.2407,
+        0.6077,
+        0.1049,
+        0.5695,
+        0.4873
+      ]
+    },
+    {
+      "id": 100166,
+      "title": "My Hero Academia Season 3",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.5872,
+        0.1965,
+        0.6112,
+        0.4404,
+        0.2217
+      ]
+    },
+    {
+      "id": 100182,
+      "title": "Sword Art Online: Alicization",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4213,
+        0.1139,
+        0.5481,
+        0.4815,
+        0.5266
+      ]
+    },
+    {
+      "id": 100240,
+      "title": "Tokyo Ghoul:re",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.626,
+        0.2357,
+        0.4401,
+        0.5929,
+        0.0859
+      ]
+    },
+    {
+      "id": 100388,
+      "title": "BANANA FISH",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4323,
+        0.2083,
+        0.4538,
+        0.748,
+        0.0661
+      ]
+    },
+    {
+      "id": 101165,
+      "title": "GOBLIN SLAYER",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.3636,
+        0.8485,
+        0.3724,
+        0.0938,
+        0.0195
+      ]
+    },
+    {
+      "id": 101167,
+      "title": "Is It Wrong to Try to Pick Up Girls in a Dungeon? II",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4856,
+        0.7057,
+        0.3153,
+        0.1223,
+        0.3895
+      ]
+    },
+    {
+      "id": 101280,
+      "title": "That Time I Got Reincarnated as a Slime",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.6213,
+        0.1482,
+        0.557,
+        0.4732,
+        0.2405
+      ]
+    },
+    {
+      "id": 101291,
+      "title": "Rascal Does Not Dream of Bunny Girl Senpai",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.6185,
+        0.3397,
+        0.2408,
+        0.4671,
+        0.4753
+      ]
+    },
+    {
+      "id": 101338,
+      "title": "Mob Psycho 100 II",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.3145,
+        0.4025,
+        0.5346,
+        0.4093,
+        0.5346
+      ]
+    },
+    {
+      "id": 101347,
+      "title": "Dororo",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5796,
+        0.4109,
+        0.5477,
+        0.4347,
+        0.0789
+      ]
+    },
+    {
+      "id": 101348,
+      "title": "Vinland Saga",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.2263,
+        0.1336,
+        0.6953,
+        0.6591,
+        0.1145
+      ]
+    },
+    {
+      "id": 101474,
+      "title": "Overlord III",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.6769,
+        0.0362,
+        0.7103,
+        0.1866,
+        0.0334
+      ]
+    },
+    {
+      "id": 101759,
+      "title": "The Promised Neverland",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.5167,
+        0.5086,
+        0.3222,
+        0.3632,
+        0.4884
+      ]
+    },
+    {
+      "id": 101921,
+      "title": "Kaguya-sama: Love is War",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.3395,
+        0.6273,
+        0.1009,
+        0.5818,
+        0.3776
+      ]
+    },
+    {
+      "id": 101922,
+      "title": "Demon Slayer: Kimetsu no Yaiba",
+      "genre": "Action",
+      "episodes": 26,
+      "tone": [
+        0.1072,
+        0.5579,
+        0.5579,
+        0.5579,
+        0.2341
+      ]
+    },
+    {
+      "id": 102883,
+      "title": "JoJo's Bizarre Adventure: Golden Wind",
+      "genre": "Action",
+      "episodes": 39,
+      "tone": [
+        0.3417,
+        0.3008,
+        0.5989,
+        0.4819,
+        0.4494
+      ]
+    },
+    {
+      "id": 103572,
+      "title": "The Quintessential Quintuplets",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.3869,
+        0.6851,
+        0.497,
+        0.1981,
+        0.3076
+      ]
+    },
+    {
+      "id": 104276,
+      "title": "My Hero Academia Season 4",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.4737,
+        0.4624,
+        0.32,
+        0.4793,
+        0.4793
+      ]
+    },
+    {
+      "id": 104578,
+      "title": "Attack on Titan Season 3 Part 2",
+      "genre": "Action",
+      "episodes": 10,
+      "tone": [
+        0.1043,
+        0.6111,
+        0.4651,
+        0.4415,
+        0.4521
+      ]
+    },
+    {
+      "id": 105310,
+      "title": "Fire Force",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.5198,
+        0.5271,
+        0.6281,
+        0.2235,
+        0.0862
+      ]
+    },
+    {
+      "id": 105333,
+      "title": "Dr. STONE",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4167,
+        0.3545,
+        0.5286,
+        0.5245,
+        0.3825
+      ]
+    },
+    {
+      "id": 105334,
+      "title": "Fruits Basket (2019)",
+      "genre": "Comedy",
+      "episodes": 25,
+      "tone": [
+        0.0475,
+        0.7128,
+        0.5171,
+        0.3655,
+        0.2977
+      ]
+    },
+    {
+      "id": 106625,
+      "title": "HAIKYU!! TO THE TOP",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.0065,
+        0.3795,
+        0.5012,
+        0.4501,
+        0.6342
+      ]
+    },
+    {
+      "id": 107660,
+      "title": "BEASTARS",
+      "genre": "Drama",
+      "episodes": 12,
+      "tone": [
+        0.526,
+        0.5738,
+        0.1028,
+        0.5816,
+        0.2128
+      ]
+    },
+    {
+      "id": 108465,
+      "title": "Mushoku Tensei: Jobless Reincarnation",
+      "genre": "Adventure",
+      "episodes": 11,
+      "tone": [
+        0.5373,
+        0.184,
+        0.4865,
+        0.5394,
+        0.3871
+      ]
+    },
+    {
+      "id": 108511,
+      "title": "That Time I Got Reincarnated as a Slime Season 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.3287,
+        0.3842,
+        0.2471,
+        0.551,
+        0.6162
+      ]
+    },
+    {
+      "id": 108632,
+      "title": "Re:ZERO -Starting Life in Another World- Season 2",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.6775,
+        0.0197,
+        0.4087,
+        0.5832,
+        0.1829
+      ]
+    },
+    {
+      "id": 108725,
+      "title": "The Promised Neverland Season 2",
+      "genre": "Action",
+      "episodes": 11,
+      "tone": [
+        0.5821,
+        0.2374,
+        0.5119,
+        0.5821,
+        0.0616
+      ]
+    },
+    {
+      "id": 110277,
+      "title": "Attack on Titan Final Season",
+      "genre": "Action",
+      "episodes": 16,
+      "tone": [
+        0.4517,
+        0.5262,
+        0.4544,
+        0.5585,
+        0.0263
+      ]
+    },
+    {
+      "id": 111321,
+      "title": "The Rising of the Shield Hero Season 2",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.2082,
+        0.5184,
+        0.7276,
+        0.3837,
+        0.1061
+      ]
+    },
+    {
+      "id": 112301,
+      "title": "The Misfit of Demon King Academy: History\u2019s Strongest Demon King Reincarnates and Goes to School with His Descendants",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.0844,
+        0.1292,
+        0.4568,
+        0.5616,
+        0.6724
+      ]
+    },
+    {
+      "id": 112641,
+      "title": "Kaguya-sama: Love is War?",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.0418,
+        0.5463,
+        0.4287,
+        0.6665,
+        0.2679
+      ]
+    },
+    {
+      "id": 113415,
+      "title": "JUJUTSU KAISEN",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.1695,
+        0.2604,
+        0.772,
+        0.5442,
+        0.106
+      ]
+    },
+    {
+      "id": 113538,
+      "title": "HAIKYU!! TO THE TOP Part 2",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.4802,
+        0.0786,
+        0.5573,
+        0.6046,
+        0.2954
+      ]
+    },
+    {
+      "id": 113813,
+      "title": "Rent-a-Girlfriend",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.3513,
+        0.5913,
+        0.2969,
+        0.2022,
+        0.6308
+      ]
+    },
+    {
+      "id": 113936,
+      "title": "Dr. STONE: STONE WARS",
+      "genre": "Action",
+      "episodes": 11,
+      "tone": [
+        0.1027,
+        0.5845,
+        0.5262,
+        0.0908,
+        0.6022
+      ]
+    },
+    {
+      "id": 114236,
+      "title": "Fire Force Season 2",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.56,
+        0.1841,
+        0.5785,
+        0.5338,
+        0.1815
+      ]
+    },
+    {
+      "id": 114535,
+      "title": "To Your Eternity",
+      "genre": "Adventure",
+      "episodes": 20,
+      "tone": [
+        0.2401,
+        0.293,
+        0.3072,
+        0.6858,
+        0.5402
+      ]
+    },
+    {
+      "id": 115230,
+      "title": "Tower of God",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.2179,
+        0.3153,
+        0.6537,
+        0.5967,
+        0.2641
+      ]
+    },
+    {
+      "id": 116006,
+      "title": "The God of High School",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.3902,
+        0.3765,
+        0.4376,
+        0.4259,
+        0.5771
+      ]
+    },
+    {
+      "id": 116267,
+      "title": "TONIKAWA: Over The Moon For You",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.0401,
+        0.6811,
+        0.2431,
+        0.1068,
+        0.6811
+      ]
+    },
+    {
+      "id": 116589,
+      "title": "86 EIGHTY-SIX",
+      "genre": "Action",
+      "episodes": 11,
+      "tone": [
+        0.0152,
+        0.2065,
+        0.4715,
+        0.7744,
+        0.3675
+      ]
+    },
+    {
+      "id": 116742,
+      "title": "That Time I Got Reincarnated as a Slime Season 2 Part 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.3766,
+        0.2975,
+        0.6959,
+        0.4585,
+        0.2743
+      ]
+    },
+    {
+      "id": 117193,
+      "title": "My Hero Academia Season 5",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.4159,
+        0.057,
+        0.8554,
+        0.0772,
+        0.2935
+      ]
+    },
+    {
+      "id": 119661,
+      "title": "Re:ZERO -Starting Life in Another World- Season 2 Part 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4624,
+        0.4837,
+        0.4837,
+        0.4837,
+        0.2902
+      ]
+    },
+    {
+      "id": 120120,
+      "title": "Tokyo Revengers",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4168,
+        0.2168,
+        0.7181,
+        0.3738,
+        0.352
+      ]
+    },
+    {
+      "id": 120697,
+      "title": "DON'T TOY WITH ME, MISS NAGATORO",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.0228,
+        0.6286,
+        0.1075,
+        0.6644,
+        0.3892
+      ]
+    },
+    {
+      "id": 124080,
+      "title": "Horimiya",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.1866,
+        0.6181,
+        0.4726,
+        0.16,
+        0.5781
+      ]
+    },
+    {
+      "id": 124845,
+      "title": "WONDER EGG PRIORITY",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.6251,
+        0.0123,
+        0.3638,
+        0.6257,
+        0.292
+      ]
+    },
+    {
+      "id": 125367,
+      "title": "Kaguya-sama: Love is War -Ultra Romantic-",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.078,
+        0.6262,
+        0.249,
+        0.6413,
+        0.3584
+      ]
+    },
+    {
+      "id": 127230,
+      "title": "Chainsaw Man",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4783,
+        0.4404,
+        0.4634,
+        0.6014,
+        0.0299
+      ]
+    },
+    {
+      "id": 127720,
+      "title": "Mushoku Tensei: Jobless Reincarnation Cour 2",
+      "genre": "Adventure",
+      "episodes": 12,
+      "tone": [
+        0.3647,
+        0.5693,
+        0.2519,
+        0.669,
+        0.1784
+      ]
+    },
+    {
+      "id": 128893,
+      "title": "Hell\u2019s Paradise",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.3999,
+        0.2922,
+        0.5603,
+        0.4856,
+        0.4526
+      ]
+    },
+    {
+      "id": 129874,
+      "title": "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc",
+      "genre": "Action",
+      "episodes": 7,
+      "tone": [
+        0.221,
+        0.4394,
+        0.6959,
+        0.5233,
+        0.0055
+      ]
+    },
+    {
+      "id": 130003,
+      "title": "BOCCHI THE ROCK!",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.3591,
+        0.6203,
+        0.2775,
+        0.2367,
+        0.5944
+      ]
+    },
+    {
+      "id": 130298,
+      "title": "The Eminence in Shadow",
+      "genre": "Action",
+      "episodes": 20,
+      "tone": [
+        0.4043,
+        0.4813,
+        0.5455,
+        0.1776,
+        0.5252
+      ]
+    },
+    {
+      "id": 131681,
+      "title": "Attack on Titan Final Season Part 2",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.038,
+        0.5033,
+        0.4707,
+        0.6054,
+        0.3965
+      ]
+    },
+    {
+      "id": 132405,
+      "title": "My Dress-Up Darling",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.4343,
+        0.6222,
+        0.1903,
+        0.0293,
+        0.6222
+      ]
+    },
+    {
+      "id": 133965,
+      "title": "Komi Can\u2019t Communicate",
+      "genre": "Comedy",
+      "episodes": 12,
+      "tone": [
+        0.5234,
+        0.6012,
+        0.0354,
+        0.0566,
+        0.6001
+      ]
+    },
+    {
+      "id": 136430,
+      "title": "Vinland Saga Season 2",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.0607,
+        0.19,
+        0.3042,
+        0.673,
+        0.644
+      ]
+    },
+    {
+      "id": 137822,
+      "title": "BLUE LOCK",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.4556,
+        0.3881,
+        0.4864,
+        0.5949,
+        0.2266
+      ]
+    },
+    {
+      "id": 139630,
+      "title": "My Hero Academia Season 6",
+      "genre": "Action",
+      "episodes": 25,
+      "tone": [
+        0.5282,
+        0.4291,
+        0.5882,
+        0.0531,
+        0.4337
+      ]
+    },
+    {
+      "id": 140439,
+      "title": "Mob Psycho 100 III",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.2295,
+        0.5368,
+        0.5368,
+        0.3816,
+        0.4747
+      ]
+    },
+    {
+      "id": 140960,
+      "title": "SPY x FAMILY",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.3871,
+        0.496,
+        0.4692,
+        0.3715,
+        0.496
+      ]
+    },
+    {
+      "id": 141391,
+      "title": "Call of the Night",
+      "genre": "Comedy",
+      "episodes": 13,
+      "tone": [
+        0.5147,
+        0.6214,
+        0.226,
+        0.3217,
+        0.4409
+      ]
+    },
+    {
+      "id": 142329,
+      "title": "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
+      "genre": "Action",
+      "episodes": 11,
+      "tone": [
+        0.364,
+        0.479,
+        0.7932,
+        0.0778,
+        0.0529
+      ]
+    },
+    {
+      "id": 142838,
+      "title": "SPY x FAMILY Cour 2",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.4535,
+        0.4579,
+        0.5533,
+        0.1476,
+        0.5067
+      ]
+    },
+    {
+      "id": 145064,
+      "title": "JUJUTSU KAISEN Season 2",
+      "genre": "Action",
+      "episodes": 23,
+      "tone": [
+        0.0242,
+        0.4093,
+        0.6176,
+        0.4111,
+        0.5304
+      ]
+    },
+    {
+      "id": 145139,
+      "title": "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc",
+      "genre": "Action",
+      "episodes": 11,
+      "tone": [
+        0.5245,
+        0.0637,
+        0.4919,
+        0.2327,
+        0.6518
+      ]
+    },
+    {
+      "id": 145545,
+      "title": "Classroom of the Elite Season 2",
+      "genre": "Drama",
+      "episodes": 13,
+      "tone": [
+        0.1915,
+        0.3433,
+        0.2747,
+        0.5683,
+        0.6686
+      ]
+    },
+    {
+      "id": 146065,
+      "title": "Mushoku Tensei: Jobless Reincarnation Season 2",
+      "genre": "Adventure",
+      "episodes": 13,
+      "tone": [
+        0.5476,
+        0.5332,
+        0.415,
+        0.2327,
+        0.4352
+      ]
+    },
+    {
+      "id": 150672,
+      "title": "Oshi No Ko",
+      "genre": "Drama",
+      "episodes": 11,
+      "tone": [
+        0.2665,
+        0.0643,
+        0.3125,
+        0.5001,
+        0.7597
+      ]
+    },
+    {
+      "id": 151801,
+      "title": "MASHLE: MAGIC AND MUSCLES",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.5812,
+        0.0216,
+        0.7026,
+        0.0526,
+        0.4066
+      ]
+    },
+    {
+      "id": 151807,
+      "title": "Solo Leveling",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.4254,
+        0.4228,
+        0.3853,
+        0.5171,
+        0.4738
+      ]
+    },
+    {
+      "id": 153288,
+      "title": "Kaiju No. 8",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.2873,
+        0.149,
+        0.4695,
+        0.5122,
+        0.6423
+      ]
+    },
+    {
+      "id": 154587,
+      "title": "Frieren: Beyond Journey\u2019s End",
+      "genre": "Adventure",
+      "episodes": 28,
+      "tone": [
+        0.7421,
+        0.2181,
+        0.2604,
+        0.5525,
+        0.1693
+      ]
+    },
+    {
+      "id": 161645,
+      "title": "The Apothecary Diaries",
+      "genre": "Drama",
+      "episodes": 24,
+      "tone": [
+        0.5428,
+        0.2344,
+        0.1886,
+        0.481,
+        0.6193
+      ]
+    },
+    {
+      "id": 166240,
+      "title": "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc",
+      "genre": "Action",
+      "episodes": 8,
+      "tone": [
+        0.4381,
+        0.3374,
+        0.6421,
+        0.3141,
+        0.4281
+      ]
+    },
+    {
+      "id": 171018,
+      "title": "DAN DA DAN",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.1639,
+        0.1454,
+        0.674,
+        0.2082,
+        0.674
+      ]
+    },
+    {
+      "id": 172463,
+      "title": "JUJUTSU KAISEN Season 3: The Culling Game Part 1",
+      "genre": "Action",
+      "episodes": 12,
+      "tone": [
+        0.1157,
+        0.3878,
+        0.5783,
+        0.4394,
+        0.5556
+      ]
+    },
+    {
+      "id": 176496,
+      "title": "Solo Leveling Season 2 -Arise from the Shadow-",
+      "genre": "Action",
+      "episodes": 13,
+      "tone": [
+        0.0238,
+        0.3072,
+        0.5965,
+        0.4899,
+        0.5561
+      ]
+    },
+    {
+      "id": 178025,
+      "title": "Gachiakuta",
+      "genre": "Action",
+      "episodes": 24,
+      "tone": [
+        0.0782,
+        0.4978,
+        0.647,
+        0.5675,
+        0.073
+      ]
+    }
+  ]
+}
